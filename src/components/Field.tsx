@@ -19,8 +19,8 @@ const CURSOR = 190
 const HOP_MS = 110
 const MAX_DEPTH = 7
 
-const CHERENKOV = '92, 200, 255'
-const SPECTRAL = '255, 178, 92'
+const FERN = '62, 107, 83'
+const PLAID = '194, 54, 46'
 
 export default function Field() {
   const ref = useRef<HTMLCanvasElement>(null)
@@ -137,8 +137,8 @@ export default function Field() {
           const heat = Math.min(a.flash, b.flash)
           ctx.strokeStyle =
             heat > 0.05
-              ? `rgba(${SPECTRAL}, ${t * heat * 0.9})`
-              : `rgba(${CHERENKOV}, ${t * 0.22})`
+              ? `rgba(${PLAID}, ${t * heat * 0.9})`
+              : `rgba(${FERN}, ${t * 0.22})`
           ctx.lineWidth = heat > 0.05 ? 1.4 : 1
           ctx.beginPath()
           ctx.moveTo(a.x, a.y)
@@ -150,13 +150,13 @@ export default function Field() {
         const near =
           pointer.on && (pointer.x - a.x) ** 2 + (pointer.y - a.y) ** 2 < CURSOR * CURSOR
         if (a.flash > 0.05) {
-          ctx.fillStyle = `rgba(${SPECTRAL}, ${0.25 * a.flash})`
+          ctx.fillStyle = `rgba(${PLAID}, ${0.25 * a.flash})`
           ctx.beginPath()
           ctx.arc(a.x, a.y, a.r + 7 * a.flash, 0, Math.PI * 2)
           ctx.fill()
         }
         ctx.fillStyle =
-          a.flash > 0.05 ? `rgba(${SPECTRAL}, ${0.5 + a.flash / 2})` : `rgba(${CHERENKOV}, ${near ? 0.95 : 0.55})`
+          a.flash > 0.05 ? `rgba(${PLAID}, ${0.5 + a.flash / 2})` : `rgba(${FERN}, ${near ? 0.95 : 0.55})`
         ctx.beginPath()
         ctx.arc(a.x, a.y, a.r + (near ? 0.6 : 0), 0, Math.PI * 2)
         ctx.fill()

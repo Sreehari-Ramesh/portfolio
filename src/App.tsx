@@ -105,6 +105,14 @@ export default function App() {
               </a>
             </div>
           </div>
+          <figure className="portrait">
+            <img
+              src="./portrait.png"
+              width={400}
+              height={400}
+              alt={`Illustrated portrait of ${profile.name}`}
+            />
+          </figure>
           <p className="hint">
             <span className="mouse">Click</span>
             <span className="touch">Tap</span> anywhere to send a message between agents
