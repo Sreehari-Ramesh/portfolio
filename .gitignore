@@ -1,0 +1,6 @@
+node_modules
+dist
+*.local
+Profile.pdf
+.claude/
+*.tsbuildinfo
