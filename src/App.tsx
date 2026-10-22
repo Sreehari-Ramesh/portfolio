@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import Experience from './components/Experience'
 import Field from './components/Field'
+import ContactForm from './components/ContactForm'
 import Diagram from './components/Diagram'
 import { earlier, education, extras, facts, featured, jobs, profile, stack } from './data'
 
@@ -247,21 +248,28 @@ export default function App() {
 
           <section id="contact" className="contact">
             <h2 className="node end">Send me a message</h2>
-            <p className="contact-lede">
-              I'm open to AI engineering roles and collaborations on agents, RAG and LLMOps.
-              Email is the quickest way to reach me.
-            </p>
-            <a className="email" href={`mailto:${profile.email}`}>
-              {profile.email}
-            </a>
-            <p className="elsewhere">
-              <a href={profile.linkedin} target="_blank" rel="noreferrer">
-                LinkedIn
-              </a>
-              <a href={profile.github} target="_blank" rel="noreferrer">
-                GitHub
-              </a>
-            </p>
+            <div className="contact-grid">
+              <div className="contact-intro">
+                <p className="contact-lede">
+                  I'm open to AI engineering roles and collaborations on agents, RAG and
+                  LLMOps. Use the form, or email me directly.
+                </p>
+                <a className="email" href={`mailto:${profile.email}`}>
+                  {/* if the address must wrap, break it after the @ rather than mid-word */}
+                  {profile.email.split('@')[0]}@<wbr />
+                  {profile.email.split('@')[1]}
+                </a>
+                <p className="elsewhere">
+                  <a href={profile.linkedin} target="_blank" rel="noreferrer">
+                    LinkedIn
+                  </a>
+                  <a href={profile.github} target="_blank" rel="noreferrer">
+                    GitHub
+                  </a>
+                </p>
+              </div>
+              <ContactForm formId={profile.formspreeId} />
+            </div>
           </section>
         </div>
       </main>

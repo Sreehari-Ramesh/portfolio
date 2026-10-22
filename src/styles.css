@@ -766,14 +766,14 @@ h2 {
 }
 .email {
   display: inline-block;
-  margin-top: 2.5rem;
-  font-size: clamp(1.15rem, 4.2vw, var(--s3));
+  margin-top: 1.75rem;
+  font-size: clamp(1.1rem, 2.2vw, 1.5rem);
   font-weight: 700;
   letter-spacing: -0.02em;
   color: var(--plaid);
   text-underline-offset: 0.2em;
   text-decoration-thickness: 2px;
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
 }
 .email:hover {
   color: var(--ink);
@@ -789,6 +789,124 @@ h2 {
 }
 .elsewhere a:hover {
   color: var(--ink);
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 2.5rem var(--gutter);
+  align-items: start;
+}
+.contact-intro {
+  grid-column: 1 / span 5;
+}
+.contact-form,
+.form-done {
+  grid-column: 7 / span 6;
+  background: var(--surface);
+  border-radius: 28px;
+  padding: clamp(1.4rem, 3vw, 2.25rem);
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+
+.contact-form {
+  display: grid;
+  gap: 1.25rem;
+}
+.form-field {
+  display: grid;
+  gap: 0.4rem;
+}
+.form-field label {
+  font-size: var(--s-1);
+  font-weight: 600;
+  color: var(--ink-2);
+}
+.form-field input,
+.form-field textarea {
+  width: 100%;
+  font: inherit;
+  font-size: 1rem;
+  color: var(--ink);
+  background: var(--page);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 0.8rem 1rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.form-field textarea {
+  resize: vertical;
+  min-height: 8.5rem;
+  line-height: 1.5;
+}
+.form-field input::placeholder,
+.form-field textarea::placeholder {
+  color: var(--muted);
+}
+.form-field input:focus,
+.form-field textarea:focus {
+  outline: none;
+  border-color: var(--fern);
+  box-shadow: 0 0 0 4px rgba(62, 107, 83, 0.15);
+}
+/* only flag a field after someone has typed in it and left it invalid */
+.form-field input:user-invalid,
+.form-field textarea:user-invalid,
+.form-field input[aria-invalid='true'],
+.form-field textarea[aria-invalid='true'] {
+  border-color: var(--plaid);
+}
+.field-error,
+.form-error {
+  font-size: var(--s-1);
+  color: var(--plaid);
+}
+.form-error {
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  background: rgba(194, 54, 46, 0.08);
+}
+.contact-form .btn {
+  justify-self: start;
+  cursor: pointer;
+}
+.contact-form .btn:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+.gotcha {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.form-done h3 {
+  font-size: var(--s2);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.form-done h3:focus {
+  outline: none;
+}
+.form-done h3::before {
+  content: '';
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin-right: 0.6rem;
+  border-radius: 50%;
+  background: var(--plaid);
+  box-shadow: 0 0 0 5px rgba(194, 54, 46, 0.16);
+  vertical-align: 0.15em;
+}
+.form-done p {
+  margin: 0.6rem 0 1.5rem;
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  line-height: 1.5;
+  color: var(--ink-2);
 }
 
 .foot {
@@ -824,6 +942,9 @@ h2 {
 @media (max-width: 860px) {
   .statement,
   .facts,
+  .contact-intro,
+  .contact-form,
+  .form-done,
   .project .project-visual,
   .project .project-text {
     grid-column: 1 / -1;
