@@ -4,8 +4,8 @@ import Field from './components/Field'
 import AttentionText from './components/AttentionText'
 import ContactForm from './components/ContactForm'
 import Project from './components/Project'
-import SkillSpace from './components/SkillSpace'
 import StreamText from './components/StreamText'
+import ToolRibbons from './components/ToolRibbons'
 import { earlier, education, extras, facts, featured, jobs, profile, stack, statement } from './data'
 
 const SECTIONS = [
@@ -220,10 +220,11 @@ export default function App() {
 
           <section id="stack" className="stack-section">
             <h2 className="node">What I work with</h2>
-            <p className="section-lede">
-              Tools I use together sit close together, like points in an embedding space.
+<p className="section-lede">
+              The frameworks, models and infrastructure I use to build, test and ship AI
+              systems.
             </p>
-            <SkillSpace groups={stack} />
+            <ToolRibbons groups={stack} />
           </section>
 
           <section id="contact" className="contact">

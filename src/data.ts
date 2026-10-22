@@ -168,15 +168,15 @@ export const extras: { label: string; items: string[] }[] = [
   { label: 'Languages', items: ['Malayalam (native)', 'English (full professional)', 'Hindi (professional)'] },
 ]
 
-export type SkillGroup = { group: string; items: string[]; x: number; y: number }
+export type SkillGroup = { group: string; items: string[] }
 
 export const stack: SkillGroup[] = [
-  { group: 'Agents', x: 0.08, y: 0.24, items: ['LangGraph', 'AutoGen', 'CrewAI', 'Semantic Kernel', 'OpenAI Agents SDK', 'Google ADK', 'Model Context Protocol'] },
-  { group: 'Retrieval', x: 0.36, y: 0.14, items: ['LangChain', 'LlamaIndex', 'FAISS', 'Qdrant', 'Milvus', 'ChromaDB', 'Pinecone', 'OpenSearch'] },
-  { group: 'Models', x: 0.4, y: 0.74, items: ['OpenAI', 'Azure OpenAI', 'Claude', 'Gemini', 'Hugging Face', 'Ollama', 'LoRA / QLoRA'] },
-  { group: 'Evaluation', x: 0.64, y: 0.28, items: ['LangSmith', 'Arize Phoenix', 'TruLens', 'Ragas', 'MLflow'] },
-  { group: 'Machine learning', x: 0.14, y: 0.8, items: ['PyTorch', 'TensorFlow', 'scikit-learn', 'Transformers'] },
-  { group: 'Backend', x: 0.66, y: 0.86, items: ['Python', 'TypeScript', 'SQL', 'FastAPI', 'async Python', 'SQLAlchemy', 'WebSockets', 'Django'] },
-  { group: 'Automation', x: 0.92, y: 0.72, items: ['n8n', 'WhatsApp Business API', 'Telegram bots', 'Webhooks', 'Pandas'] },
-  { group: 'Infrastructure', x: 0.92, y: 0.16, items: ['Azure', 'AWS', 'Docker', 'Kubernetes', 'Terraform', 'GitHub Actions', 'Linux'] },
+  { group: 'Agents', items: ['LangGraph', 'AutoGen', 'CrewAI', 'Semantic Kernel', 'OpenAI Agents SDK', 'Google ADK', 'Model Context Protocol'] },
+  { group: 'Retrieval', items: ['LangChain', 'LlamaIndex', 'FAISS', 'Qdrant', 'Milvus', 'ChromaDB', 'Pinecone', 'OpenSearch'] },
+  { group: 'Models', items: ['OpenAI', 'Azure OpenAI', 'Claude', 'Gemini', 'Hugging Face', 'Ollama', 'LoRA / QLoRA'] },
+  { group: 'Evaluation', items: ['LangSmith', 'Arize Phoenix', 'TruLens', 'Ragas', 'MLflow'] },
+  { group: 'Machine learning', items: ['PyTorch', 'TensorFlow', 'scikit-learn', 'Transformers'] },
+  { group: 'Backend', items: ['Python', 'TypeScript', 'SQL', 'FastAPI', 'async Python', 'SQLAlchemy', 'WebSockets', 'Django'] },
+  { group: 'Automation', items: ['n8n', 'WhatsApp Business API', 'Telegram bots', 'Webhooks', 'Pandas'] },
+  { group: 'Infrastructure', items: ['Azure', 'AWS', 'Docker', 'Kubernetes', 'Terraform', 'GitHub Actions', 'Linux'] },
 ]

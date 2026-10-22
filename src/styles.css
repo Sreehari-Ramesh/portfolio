@@ -745,124 +745,106 @@ h2 {
   max-width: 44ch;
 }
 
-/* ---------- skill map ---------- */
+/* ---------- tool ribbons ---------- */
 
-.space {
-  display: grid;
-  grid-template-columns: minmax(0, 8fr) minmax(15rem, 4fr);
-  gap: 2rem var(--gutter);
-  align-items: start;
+.tools {
   margin-top: 2.5rem;
 }
-.space-plot {
-  background: var(--surface);
-  border-radius: 28px;
-  box-shadow: inset 0 0 0 1px var(--line);
-  padding: 0.75rem;
+/* the bands fade out at both edges instead of being cut off */
+.ribbons {
+  display: grid;
+  gap: 0.6rem;
+  padding-block: 0.5rem;
+  overflow: hidden;
+  mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
 }
-.space-plot svg {
-  display: block;
-  width: 100%;
-  height: auto;
+/* without min-width: 0 a band would stretch to the full length of its text */
+.ribbon {
+  min-width: 0;
+  overflow: hidden;
 }
-.space-gridline {
-  fill: none;
-  stroke: var(--line);
-  stroke-width: 1;
-  opacity: 0.55;
+.ribbon-track {
+  display: flex;
+  width: max-content;
+  animation: drift var(--dur, 60s) linear infinite;
 }
-.cluster {
-  cursor: pointer;
+.ribbon:hover .ribbon-track {
+  animation-play-state: paused;
 }
-.hull {
-  fill: rgba(62, 107, 83, 0.05);
-  stroke: var(--line);
-  stroke-dasharray: 3 5;
-  transition: fill 0.3s, stroke 0.3s;
+@keyframes drift {
+  to {
+    transform: translateX(-50%);
+  }
 }
-.cluster.on .hull {
-  fill: rgba(194, 54, 46, 0.06);
-  stroke: rgba(194, 54, 46, 0.45);
+.ribbon-item {
+  position: relative;
+  padding-right: 2.4rem;
+  white-space: nowrap;
+  line-height: 1.25;
+  transition: color 0.2s;
 }
-.pt {
-  fill: var(--fern);
-  opacity: 0.55;
-  transition: r 0.25s, opacity 0.25s, fill 0.25s;
+.ribbon-item::after {
+  content: '';
+  position: absolute;
+  right: 1.05rem;
+  top: 50%;
+  width: 7px;
+  height: 7px;
+  margin-top: -3px;
+  border-radius: 50%;
+  background: var(--fern);
+  opacity: 0.45;
 }
-.cluster.on .pt {
-  fill: var(--plaid);
-  opacity: 1;
-}
-.spoke {
-  stroke: var(--plaid);
-  stroke-opacity: 0.3;
-  stroke-width: 1.2;
-}
-.cluster-name,
-.pt-label {
-  font-family: var(--display);
-  font-weight: 600;
-  paint-order: stroke;
-  stroke: var(--surface);
-  stroke-width: 6px;
-  stroke-linejoin: round;
-}
-.cluster-name {
-  font-size: 17px;
-  fill: var(--muted);
-}
-.cluster.on .cluster-name {
-  fill: var(--ink);
-}
-.pt-label {
-  font-size: 17px;
-  fill: var(--ink);
-  pointer-events: none;
+.ribbon-item:hover {
+  color: var(--plaid);
 }
 
-.space-picker {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
+/* three voices so the bands read as layers, not repeats */
+.ribbon-1 {
+  --dur: 70s;
+  font-size: clamp(1.6rem, 3.4vw, 2.6rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--ink);
 }
-.space-picker button {
-  padding: 0.45rem 0.9rem;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  font-size: var(--s-1);
+.ribbon-2 {
+  --dur: 90s;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(1.4rem, 2.8vw, 2.1rem);
   color: var(--ink-2);
-  transition: background 0.2s, color 0.2s, border-color 0.2s;
 }
-.space-picker button:hover {
-  border-color: var(--fern);
+.ribbon-2 .ribbon-track {
+  animation-direction: reverse;
 }
-.space-picker button[aria-pressed='true'] {
-  background: var(--ink);
-  border-color: var(--ink);
-  color: var(--surface);
+.ribbon-3 {
+  --dur: 55s;
+  font-size: clamp(1.6rem, 3.4vw, 2.6rem);
+  font-weight: 700;
+  font-stretch: 75%;
+  letter-spacing: -0.01em;
+  color: var(--fern);
 }
-.space-list {
-  margin-top: 1.75rem;
-  padding-top: 1.25rem;
+
+.tool-groups {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.75rem var(--gutter);
+  margin-top: clamp(2.5rem, 6vh, 3.5rem);
+}
+.tool-groups > div {
+  padding-top: 0.9rem;
   border-top: 1px solid var(--line);
 }
-.space-list h3 {
-  font-size: var(--s2);
-  font-weight: 700;
-  letter-spacing: -0.02em;
+.tool-groups dt {
+  font-weight: 650;
+  color: var(--ink);
 }
-.space-list ul {
-  list-style: none;
-  padding: 0;
-  margin-top: 0.75rem;
-  columns: 2;
-  column-gap: 1.5rem;
-}
-.space-list li {
-  padding: 0.3rem 0;
-  font-family: var(--serif);
-  font-size: 1.1rem;
-  break-inside: avoid;
+.tool-groups dd {
+  margin-top: 0.35rem;
+  font-size: 0.98rem;
+  line-height: 1.55;
+  color: var(--ink-2);
 }
 
 /* ---------- contact ---------- */
@@ -1062,8 +1044,8 @@ h2 {
   .row-body {
     grid-column: 1 / -1;
   }
-  .space {
-    grid-template-columns: 1fr;
+  .tool-groups {
+    grid-template-columns: repeat(2, 1fr);
   }
   .earlier a {
     grid-template-columns: 1fr auto;
@@ -1114,9 +1096,8 @@ h2 {
     left: var(--gutter);
     right: auto;
   }
-  /* names are too small to read once the map shrinks; the buttons carry them */
-  .cluster-name {
-    display: none;
+  .tool-groups {
+    grid-template-columns: 1fr;
   }
 }
 
