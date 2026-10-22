@@ -1,17 +1,16 @@
 import { useEffect, useRef, useState } from 'react'
-import Experience from './components/Experience'
 import Field from './components/Field'
 import AttentionText from './components/AttentionText'
 import ContactForm from './components/ContactForm'
 import Project from './components/Project'
 import StreamText from './components/StreamText'
 import ToolRibbons from './components/ToolRibbons'
-import { earlier, education, extras, facts, featured, jobs, profile, stack, statement } from './data'
+import { career, earlier, facts, featured, impact, principles, profile, stack, statement } from './data'
 
 const SECTIONS = [
-  { id: 'about', label: 'About' },
   { id: 'work', label: 'Work' },
-  { id: 'experience', label: 'Experience' },
+  { id: 'impact', label: 'Impact' },
+  { id: 'approach', label: 'Approach' },
   { id: 'stack', label: 'Stack' },
   { id: 'contact', label: 'Contact' },
 ]
@@ -83,7 +82,7 @@ export default function App() {
           {profile.name}
         </a>
         <nav aria-label="Sections">
-          {SECTIONS.filter((s) => s.id !== 'about').map((s) => (
+          {SECTIONS.map((s) => (
             <a key={s.id} href={`#${s.id}`} aria-current={current === s.id ? 'true' : undefined}>
               {s.label}
             </a>
@@ -128,28 +127,6 @@ export default function App() {
             <span className="path-fill" />
           </span>
 
-          <section id="about" className="about">
-            <h2 className="node">Many parts, one system</h2>
-            <div className="about-grid">
-              <div className="statement-wrap">
-                <AttentionText text={statement.text} links={statement.links} />
-                <p className="probe-hint" aria-hidden="true">
-                  <span className="mouse">Point at</span>
-                  <span className="touch">Tap</span> a word to see which others it attends to,
-                  like a language model reading this sentence.
-                </p>
-              </div>
-              <dl className="facts">
-                {facts.map((f) => (
-                  <div key={f.term}>
-                    <dt>{f.term}</dt>
-                    <dd>{f.detail}</dd>
-                  </div>
-                ))}
-              </dl>
-            </div>
-          </section>
-
           <section id="work" className="work">
             <h2 className="node">Selected work</h2>
             <p className="section-lede">
@@ -187,40 +164,68 @@ export default function App() {
             </div>
           </section>
 
-          <section id="experience" className="experience">
-            <h2 className="node">Experience</h2>
-            <Experience jobs={jobs} />
-
-            <div className="background">
-              <div>
-                <h3>Education</h3>
-                <ul>
-                  {education.map((e) => (
-                    <li key={e.title}>
-                      <strong>{e.title}</strong>
-                      <span>
-                        {e.org}, {e.period}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              {extras.map((x) => (
-                <div key={x.label}>
-                  <h3>{x.label}</h3>
-                  <ul>
-                    {x.items.map((i) => (
-                      <li key={i}>{i}</li>
-                    ))}
-                  </ul>
-                </div>
+          <section id="impact" className="impact-section">
+            <h2 className="node">Impact in production</h2>
+            <p className="section-lede">
+              What the systems I've shipped changed for the teams using them.
+            </p>
+            <ul className="impact-grid">
+              {impact.map((i) => (
+                <li key={i.figure}>
+                  <span className="impact-figure">{i.figure}</span>
+                  <span className="impact-text">{i.text}</span>
+                  <span className="impact-where">{i.where}</span>
+                </li>
               ))}
+            </ul>
+
+            <h3 className="career-title">Where I've worked</h3>
+            <ol className="career">
+              {career.map((c) => (
+                <li key={c.org}>
+                  <span className="career-period">{c.period}</span>
+                  <span className="career-org">{c.org}</span>
+                  <span className="career-role">
+                    {c.role}, {c.place}
+                  </span>
+                </li>
+              ))}
+            </ol>
+          </section>
+
+          <section id="approach" className="about">
+            <h2 className="node">How I build</h2>
+            <div className="about-grid">
+              <div className="statement-wrap">
+                <AttentionText text={statement.text} links={statement.links} />
+                <p className="probe-hint" aria-hidden="true">
+                  <span className="mouse">Point at</span>
+                  <span className="touch">Tap</span> a word to see which others it attends to,
+                  like a language model reading this sentence.
+                </p>
+              </div>
+              <dl className="facts">
+                {facts.map((f) => (
+                  <div key={f.term}>
+                    <dt>{f.term}</dt>
+                    <dd>{f.detail}</dd>
+                  </div>
+                ))}
+              </dl>
             </div>
+            <ul className="principles">
+              {principles.map((p) => (
+                <li key={p.title}>
+                  <h3>{p.title}</h3>
+                  <p>{p.text}</p>
+                </li>
+              ))}
+            </ul>
           </section>
 
           <section id="stack" className="stack-section">
             <h2 className="node">What I work with</h2>
-<p className="section-lede">
+            <p className="section-lede">
               The frameworks, models and infrastructure I use to build, test and ship AI
               systems.
             </p>
