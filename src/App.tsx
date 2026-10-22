@@ -157,9 +157,11 @@ export default function App() {
               agents that book trips.
             </p>
 
-            {featured.map((p, i) => (
-              <Project key={p.name} project={p} flip={i % 2 === 1} />
-            ))}
+            <div className="projects">
+              {featured.map((p) => (
+                <Project key={p.name} project={p} />
+              ))}
+            </div>
 
             <div className="earlier-wrap">
               <button

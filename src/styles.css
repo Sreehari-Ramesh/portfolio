@@ -370,131 +370,101 @@ h2 {
 
 /* ---------- work ---------- */
 
-/* each project is a spread: a system diagram on a tinted panel beside the
-   write-up, alternating sides down the page */
-.project {
+/* each project is a plain row; public ones link to their repository */
+.projects {
+  margin-top: clamp(2.5rem, 6vh, 4rem);
+  border-bottom: 1px solid var(--line);
+}
+.project-row {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
-  gap: 2rem var(--gutter);
-  align-items: center;
-  margin-top: clamp(4rem, 11vh, 7rem);
+  gap: 1.25rem var(--gutter);
+  /* the negative margin keeps text aligned with the heading while the hover
+     background extends past it */
+  --row-pad: clamp(1rem, 2vw, 1.75rem);
+  padding: clamp(2rem, 5vh, 3rem) var(--row-pad);
+  margin-inline: calc(-1 * var(--row-pad));
+  border-top: 1px solid var(--line);
+  border-radius: 4px;
+  color: inherit;
+  text-decoration: none;
+  transition: background 0.2s;
 }
-.project-visual {
-  grid-column: 1 / span 7;
-  grid-row: 1;
-  border-radius: 28px;
-  padding: clamp(0.75rem, 2vw, 1.5rem);
-  --panel: var(--sage);
-  background: var(--panel);
+.project-row.linked:hover {
+  background: var(--surface);
 }
-.project-text {
-  grid-column: 8 / span 5;
-  grid-row: 1;
+.project-row.linked:focus-visible {
+  outline-offset: -2px;
 }
-.project.flip .project-visual {
-  grid-column: 6 / span 7;
-}
-.project.flip .project-text {
+.row-head {
   grid-column: 1 / span 5;
 }
-.tone-paper .project-visual {
-  --panel: var(--surface);
-  background: var(--panel);
-  box-shadow: inset 0 0 0 1px var(--line);
-}
-.tone-blush .project-visual {
-  --panel: #f3e6e2;
-  background: var(--panel);
+.row-body {
+  grid-column: 6 / span 7;
 }
 
-.diagram {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-.grid-dot {
-  fill: var(--ink);
-  opacity: 0.09;
-}
-.edge {
-  stroke: var(--fern);
-  stroke-width: 2;
-  stroke-opacity: 0.5;
-}
-.edge.to-out {
-  stroke: var(--plaid);
-  stroke-opacity: 0.6;
-}
-.d-node circle {
-  fill: var(--surface);
-  stroke: var(--fern);
-  stroke-width: 2.5;
-}
-.d-node.out circle {
-  fill: var(--plaid);
-  stroke: var(--plaid);
-}
-.d-node.out .halo {
-  fill: var(--plaid);
-  stroke: none;
-  opacity: 0.14;
-}
-.d-node text {
-  font-family: var(--display);
-  font-size: 18px;
-  font-weight: 600;
-  fill: var(--ink);
-  /* a halo in the panel colour so links pass behind labels */
-  paint-order: stroke;
-  stroke: var(--panel);
-  stroke-width: 7px;
-  stroke-linejoin: round;
-}
-.d-node.out text {
-  fill: var(--plaid);
-}
-
-.project h3 {
-  font-size: clamp(2rem, 4.2vw, 3.2rem);
+.project-row h3 {
+  font-size: clamp(1.9rem, 3.6vw, 2.8rem);
   font-weight: 750;
   font-variation-settings: 'opsz' 96;
   letter-spacing: -0.035em;
-  line-height: 0.98;
+  line-height: 1;
+  transition: color 0.2s;
+}
+.project-row.linked:hover h3 {
+  color: var(--fern);
 }
 .summary {
-  margin-top: 0.9rem;
   font-family: var(--serif);
   font-size: 1.25rem;
   line-height: 1.45;
-  color: var(--ink-2);
+  color: var(--ink);
 }
 .highlights {
   list-style: none;
   padding: 0;
-  margin-top: 1.5rem;
+  margin-top: 1rem;
 }
 .highlights li {
   position: relative;
-  padding: 0.7rem 0 0.7rem 1.4rem;
-  border-top: 1px solid var(--line);
+  padding: 0.35rem 0 0.35rem 1.3rem;
   font-size: 1rem;
   line-height: 1.45;
+  color: var(--ink-2);
 }
 .highlights li::before {
   content: '';
   position: absolute;
   left: 0.15rem;
-  top: 1.25rem;
-  width: 7px;
-  height: 7px;
+  top: 0.95rem;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
   background: var(--fern);
 }
 .tags,
 .context {
-  margin-top: 1.25rem;
+  margin-top: 0.9rem;
   color: var(--muted);
   font-size: var(--s-1);
+  max-width: 30ch;
+}
+.row-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1.4rem;
+  font-weight: 600;
+  color: var(--fern);
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+  text-decoration-thickness: 1px;
+}
+.gh-mark {
+  fill: currentColor;
+}
+.project-row.linked:hover .row-link {
+  color: var(--plaid);
 }
 .link {
   display: inline-block;
@@ -773,90 +743,6 @@ h2 {
   font-size: var(--s-1);
   color: var(--muted);
   max-width: 44ch;
-}
-
-/* ---------- diagram motion ---------- */
-
-/* links draw themselves in order, then nodes appear, once per diagram */
-.diagram .edge {
-  stroke-dasharray: 1;
-  stroke-dashoffset: 1;
-  transition:
-    stroke-dashoffset 0.8s var(--ease) calc(var(--i) * 140ms + 150ms),
-    stroke-opacity 0.2s,
-    stroke-width 0.2s,
-    stroke 0.2s;
-}
-.diagram.drawn .edge {
-  stroke-dashoffset: 0;
-}
-.diagram .d-node {
-  opacity: 0;
-  transform: scale(0.7);
-  transform-box: fill-box;
-  transform-origin: center;
-  transition:
-    opacity 0.4s ease calc(var(--i) * 110ms),
-    transform 0.5s var(--ease) calc(var(--i) * 110ms);
-}
-.diagram.drawn .d-node {
-  opacity: 1;
-  transform: none;
-}
-.diagram.drawn .halo {
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: halo 1.8s ease-out 1.2s 2;
-}
-@keyframes halo {
-  from {
-    transform: scale(1);
-    opacity: 0.3;
-  }
-  to {
-    transform: scale(1.9);
-    opacity: 0;
-  }
-}
-
-/* pointing at a highlight lights its nodes and dims the rest */
-.d-node > * {
-  transition: opacity 0.2s;
-}
-.diagram.focusing .d-node:not(.lit) > * {
-  opacity: 0.25;
-}
-.diagram.focusing .edge:not(.lit) {
-  stroke-opacity: 0.25;
-}
-.diagram .edge.lit {
-  stroke: var(--plaid);
-  stroke-width: 3;
-  stroke-opacity: 1;
-}
-.d-node.lit:not(.out) .core {
-  stroke: var(--plaid);
-  fill: #fbe9e6;
-}
-
-.highlights li {
-  transition: color 0.2s;
-  color: var(--ink-2);
-}
-.highlights li::before {
-  transition: background 0.2s, transform 0.2s;
-}
-.highlights li:hover,
-.highlights li.on {
-  color: var(--ink);
-}
-.highlights li:hover::before,
-.highlights li.on::before {
-  background: var(--plaid);
-  transform: scale(1.35);
-}
-.highlights li:focus-visible {
-  outline-offset: 2px;
 }
 
 /* ---------- skill map ---------- */
@@ -1172,12 +1058,9 @@ h2 {
   .contact-intro,
   .contact-form,
   .form-done,
-  .project .project-visual,
-  .project .project-text {
+  .row-head,
+  .row-body {
     grid-column: 1 / -1;
-  }
-  .project .project-text {
-    grid-row: 2;
   }
   .space {
     grid-template-columns: 1fr;
@@ -1217,10 +1100,6 @@ h2 {
 }
 
 @media (max-width: 640px) {
-  /* labels need to stay readable when the diagram shrinks */
-  .d-node text {
-    font-size: 22px;
-  }
   .impact li {
     grid-template-columns: 1fr;
     gap: 0.35rem;
