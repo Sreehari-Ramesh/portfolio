@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import Experience from './components/Experience'
 import Field from './components/Field'
-import Pipeline from './components/Pipeline'
+import Diagram from './components/Diagram'
 import { earlier, education, extras, facts, featured, jobs, profile, stack } from './data'
 
 const SECTIONS = [
@@ -145,27 +145,32 @@ export default function App() {
           <section id="work" className="work">
             <h2 className="node">Selected work</h2>
             <p className="section-lede">
-              Each project is a pipeline. Run one to watch a request travel through it, or
-              click a stage to read what it does.
+              Three systems I designed and built end to end, from offline document AI to
+              agents that book trips.
             </p>
 
-            {featured.map((p) => (
-              <article className="project" key={p.name}>
-                <header className="project-head">
+            {featured.map((p, i) => (
+              <article className={`project tone-${p.tone}${i % 2 ? ' flip' : ''}`} key={p.name}>
+                <div className="project-visual">
+                  <Diagram data={p.diagram} name={p.name} />
+                </div>
+                <div className="project-text">
                   <h3>{p.name}</h3>
                   <p className="summary">{p.summary}</p>
-                </header>
-                <Pipeline stages={p.stages} name={p.name} />
-                <p className="project-meta">
-                  <span className="tags">{p.stack.join(', ')}</span>
+                  <ul className="highlights">
+                    {p.highlights.map((h) => (
+                      <li key={h}>{h}</li>
+                    ))}
+                  </ul>
+                  <p className="tags">{p.stack.join(', ')}</p>
                   {p.repo ? (
                     <a className="link" href={p.repo} target="_blank" rel="noreferrer">
                       View the code on GitHub
                     </a>
                   ) : (
-                    <span className="context">{p.context}</span>
+                    <p className="context">{p.context}</p>
                   )}
-                </p>
+                </div>
               </article>
             ))}
 

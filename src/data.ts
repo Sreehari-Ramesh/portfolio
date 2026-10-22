@@ -15,12 +15,19 @@ export const facts: { term: string; detail: string }[] = [
   { term: 'Building since 2023', detail: 'Agents, RAG and AI backends at three companies' },
 ]
 
-export type Stage = { label: string; text: string }
+// Diagram coordinates are in a 600 x 400 box. The `out` node is what the
+// system hands back to people, drawn in the accent colour.
+export type Diagram = {
+  nodes: { id: string; label: string; x: number; y: number; out?: boolean }[]
+  edges: [string, string][]
+}
 
 export type Project = {
   name: string
   summary: string
-  stages: Stage[]
+  highlights: string[]
+  diagram: Diagram
+  tone: 'sage' | 'paper' | 'blush'
   stack: string[]
   repo?: string
   context?: string
@@ -30,39 +37,67 @@ export const featured: Project[] = [
   {
     name: 'Loomin-Docs',
     summary: 'A shared document editor with an AI assistant that runs fully offline.',
-    stages: [
-      { label: 'Upload', text: 'Drop a PDF, Markdown or text file into the sidebar while others keep editing the document live.' },
-      { label: 'Embed', text: 'The file is split into passages and embedded on the machine with all-MiniLM-L6-v2. Nothing leaves the network.' },
-      { label: 'Search', text: 'FAISS finds the passages closest to your question.' },
-      { label: 'Generate', text: 'Llama 3, Mistral or Qwen runs locally through Ollama and answers from those passages only.' },
-      { label: 'Cite', text: 'The answer arrives with clickable citations. The whole stack installs on an air-gapped RHEL 9 server from one bundle.' },
+    highlights: [
+      'Answers questions from your uploaded files and cites the passages it used',
+      'Lets several people edit the same document live',
+      'Runs entirely offline, installed on an air-gapped RHEL 9 server from one bundle',
     ],
+    diagram: {
+      nodes: [
+        { id: 'files', label: 'Your files', x: 90, y: 110 },
+        { id: 'embed', label: 'Embed locally', x: 270, y: 70 },
+        { id: 'faiss', label: 'FAISS search', x: 460, y: 125 },
+        { id: 'editor', label: 'Shared editor', x: 110, y: 300 },
+        { id: 'llm', label: 'Local LLM', x: 300, y: 245 },
+        { id: 'answer', label: 'Cited answer', x: 495, y: 305, out: true },
+      ],
+      edges: [['files', 'embed'], ['embed', 'faiss'], ['faiss', 'llm'], ['editor', 'llm'], ['llm', 'answer']],
+    },
+    tone: 'sage',
     stack: ['React', 'TipTap', 'FastAPI', 'WebSockets', 'FAISS', 'Ollama', 'Docker'],
     repo: 'https://github.com/Sreehari-Ramesh/Loomin-docs_',
   },
   {
     name: 'Dubai travel agents',
     summary: 'A chat where a small team of agents finds and books activities in Dubai.',
-    stages: [
-      { label: 'Ask', text: 'A traveller writes in a WhatsApp-style chat: “Can I book a desert safari for four on Friday?”' },
-      { label: 'Route', text: 'The root agent reads the intent, picks a specialist and decides whether a person needs to step in.' },
-      { label: 'Act', text: 'The information agent returns prices, policies and photos. The booking agent checks availability and books.' },
-      { label: 'Escalate', text: 'Anything the agents should not decide alone is emailed to a human supervisor.' },
-      { label: 'Reply', text: 'The supervisor’s email reply is picked up over IMAP and posted back into the same conversation.' },
+    highlights: [
+      'A root agent sends each message to an information agent or a booking agent',
+      'Shows prices, policies and photos, then checks availability and books in the chat',
+      'Emails hard cases to a human supervisor and posts their reply back into the chat',
     ],
+    diagram: {
+      nodes: [
+        { id: 'user', label: 'Traveller', x: 75, y: 200 },
+        { id: 'root', label: 'Root agent', x: 245, y: 200 },
+        { id: 'info', label: 'Info agent', x: 410, y: 85 },
+        { id: 'book', label: 'Booking agent', x: 410, y: 315 },
+        { id: 'human', label: 'Supervisor', x: 535, y: 200, out: true },
+      ],
+      edges: [['user', 'root'], ['root', 'info'], ['root', 'book'], ['book', 'human'], ['info', 'human']],
+    },
+    tone: 'blush',
     stack: ['Google ADK', 'LiteLLM', 'FastAPI', 'React', 'SMTP / IMAP'],
     repo: 'https://github.com/Sreehari-Ramesh/multi-agent-travel-assistant-system',
   },
   {
     name: 'Text-to-SQL agent',
     summary: 'Lets a business ask its own database questions in plain language.',
-    stages: [
-      { label: 'Ask', text: '“How much did we invoice in March compared with February?”' },
-      { label: 'Map', text: 'The agent works out which tables and columns the question is about.' },
-      { label: 'Query', text: 'It writes the SQL and runs it against the business database.' },
-      { label: 'Compute', text: 'It does the sums, comparisons and aggregations the question needs.' },
-      { label: 'Answer', text: 'It replies in a sentence anyone can read. This cut reliance on manual reports by about 70%.' },
+    highlights: [
+      'Turns a question like “March versus February invoices?” into SQL and runs it',
+      'Does the sums and comparisons the question needs',
+      'Cut reliance on manual reports by about 70%',
     ],
+    diagram: {
+      nodes: [
+        { id: 'q', label: 'Question', x: 75, y: 200 },
+        { id: 'agent', label: 'SQL agent', x: 240, y: 200 },
+        { id: 'schema', label: 'Schema', x: 400, y: 85 },
+        { id: 'db', label: 'Business DB', x: 400, y: 315 },
+        { id: 'answer', label: 'Plain answer', x: 515, y: 200, out: true },
+      ],
+      edges: [['q', 'agent'], ['agent', 'schema'], ['agent', 'db'], ['schema', 'answer'], ['db', 'answer']],
+    },
+    tone: 'paper',
     stack: ['Python', 'LLM tool calling', 'SQL', 'SQLAlchemy', 'FastAPI'],
     context: 'Built at White Paper Alliance',
   },
