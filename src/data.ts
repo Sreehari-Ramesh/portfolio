@@ -17,6 +17,27 @@ export const facts: { term: string; detail: string }[] = [
   { term: 'Building since 2023', detail: 'Agents, RAG and AI backends at three companies' },
 ]
 
+// Each word lists the words it "attends" to most, from 0 to 1.
+export const statement = {
+  text: 'Physics taught me to model systems of many interacting parts. Now the parts are language models, tools and the people who check their work.',
+  links: {
+    physics: { model: 0.9, systems: 0.8, interacting: 0.6, taught: 0.5 },
+    taught: { physics: 0.8, me: 0.6, model: 0.5 },
+    model: { systems: 0.9, physics: 0.7, models: 0.5 },
+    systems: { parts: 0.9, interacting: 0.8, many: 0.6, model: 0.6 },
+    many: { parts: 0.8, interacting: 0.6 },
+    interacting: { parts: 0.9, systems: 0.7, many: 0.5 },
+    parts: { systems: 0.8, models: 0.75, tools: 0.7, people: 0.7, interacting: 0.6 },
+    now: { parts: 0.6, physics: 0.4 },
+    language: { models: 1 },
+    models: { language: 0.95, parts: 0.7, tools: 0.5, model: 0.5 },
+    tools: { models: 0.7, parts: 0.7, people: 0.4 },
+    people: { check: 0.85, work: 0.7, parts: 0.6 },
+    check: { work: 0.85, people: 0.8, models: 0.5 },
+    work: { check: 0.8, their: 0.7, people: 0.6, models: 0.5 },
+  } as Record<string, Record<string, number>>,
+}
+
 // Diagram coordinates are in a 600 x 400 box. The `out` node is what the
 // system hands back to people, drawn in the accent colour.
 export type Diagram = {
@@ -27,7 +48,7 @@ export type Diagram = {
 export type Project = {
   name: string
   summary: string
-  highlights: string[]
+  highlights: { text: string; nodes: string[] }[]
   diagram: Diagram
   tone: 'sage' | 'paper' | 'blush'
   stack: string[]
@@ -40,9 +61,9 @@ export const featured: Project[] = [
     name: 'Loomin-Docs',
     summary: 'A shared document editor with an AI assistant that runs fully offline.',
     highlights: [
-      'Answers questions from your uploaded files and cites the passages it used',
-      'Lets several people edit the same document live',
-      'Runs entirely offline, installed on an air-gapped RHEL 9 server from one bundle',
+      { text: 'Answers questions from your uploaded files and cites the passages it used', nodes: ['files', 'embed', 'faiss', 'llm', 'answer'] },
+      { text: 'Lets several people edit the same document live', nodes: ['editor'] },
+      { text: 'Runs entirely offline, installed on an air-gapped RHEL 9 server from one bundle', nodes: ['embed', 'faiss', 'llm'] },
     ],
     diagram: {
       nodes: [
@@ -63,9 +84,9 @@ export const featured: Project[] = [
     name: 'Dubai travel agents',
     summary: 'A chat where a small team of agents finds and books activities in Dubai.',
     highlights: [
-      'A root agent sends each message to an information agent or a booking agent',
-      'Shows prices, policies and photos, then checks availability and books in the chat',
-      'Emails hard cases to a human supervisor and posts their reply back into the chat',
+      { text: 'A root agent sends each message to an information agent or a booking agent', nodes: ['user', 'root', 'info', 'book'] },
+      { text: 'Shows prices, policies and photos, then checks availability and books in the chat', nodes: ['info', 'book'] },
+      { text: 'Emails hard cases to a human supervisor and posts their reply back into the chat', nodes: ['book', 'info', 'human'] },
     ],
     diagram: {
       nodes: [
@@ -85,9 +106,9 @@ export const featured: Project[] = [
     name: 'Text-to-SQL agent',
     summary: 'Lets a business ask its own database questions in plain language.',
     highlights: [
-      'Turns a question like “March versus February invoices?” into SQL and runs it',
-      'Does the sums and comparisons the question needs',
-      'Cut reliance on manual reports by about 70%',
+      { text: 'Turns a question like “March versus February invoices?” into SQL and runs it', nodes: ['q', 'agent', 'schema', 'db'] },
+      { text: 'Does the sums and comparisons the question needs', nodes: ['db', 'answer'] },
+      { text: 'Cut reliance on manual reports by about 70%', nodes: ['answer'] },
     ],
     diagram: {
       nodes: [
@@ -190,13 +211,15 @@ export const extras: { label: string; items: string[] }[] = [
   { label: 'Languages', items: ['Malayalam (native)', 'English (full professional)', 'Hindi (professional)'] },
 ]
 
-export const stack: { group: string; items: string[] }[] = [
-  { group: 'Agents', items: ['LangGraph', 'AutoGen', 'CrewAI', 'Semantic Kernel', 'OpenAI Agents SDK', 'Google ADK', 'Model Context Protocol'] },
-  { group: 'Retrieval', items: ['LangChain', 'LlamaIndex', 'FAISS', 'Qdrant', 'Milvus', 'ChromaDB', 'Pinecone', 'OpenSearch'] },
-  { group: 'Models', items: ['OpenAI', 'Azure OpenAI', 'Claude', 'Gemini', 'Hugging Face', 'Ollama', 'LoRA / QLoRA'] },
-  { group: 'Evaluation', items: ['LangSmith', 'Arize Phoenix', 'TruLens', 'Ragas', 'MLflow'] },
-  { group: 'Machine learning', items: ['PyTorch', 'TensorFlow', 'scikit-learn', 'Transformers'] },
-  { group: 'Backend', items: ['Python', 'TypeScript', 'SQL', 'FastAPI', 'async Python', 'SQLAlchemy', 'WebSockets', 'Django'] },
-  { group: 'Automation', items: ['n8n', 'WhatsApp Business API', 'Telegram bots', 'Webhooks', 'Pandas'] },
-  { group: 'Infrastructure', items: ['Azure', 'AWS', 'Docker', 'Kubernetes', 'Terraform', 'GitHub Actions', 'Linux'] },
+export type SkillGroup = { group: string; items: string[]; x: number; y: number }
+
+export const stack: SkillGroup[] = [
+  { group: 'Agents', x: 0.08, y: 0.24, items: ['LangGraph', 'AutoGen', 'CrewAI', 'Semantic Kernel', 'OpenAI Agents SDK', 'Google ADK', 'Model Context Protocol'] },
+  { group: 'Retrieval', x: 0.36, y: 0.14, items: ['LangChain', 'LlamaIndex', 'FAISS', 'Qdrant', 'Milvus', 'ChromaDB', 'Pinecone', 'OpenSearch'] },
+  { group: 'Models', x: 0.4, y: 0.74, items: ['OpenAI', 'Azure OpenAI', 'Claude', 'Gemini', 'Hugging Face', 'Ollama', 'LoRA / QLoRA'] },
+  { group: 'Evaluation', x: 0.64, y: 0.28, items: ['LangSmith', 'Arize Phoenix', 'TruLens', 'Ragas', 'MLflow'] },
+  { group: 'Machine learning', x: 0.14, y: 0.8, items: ['PyTorch', 'TensorFlow', 'scikit-learn', 'Transformers'] },
+  { group: 'Backend', x: 0.66, y: 0.86, items: ['Python', 'TypeScript', 'SQL', 'FastAPI', 'async Python', 'SQLAlchemy', 'WebSockets', 'Django'] },
+  { group: 'Automation', x: 0.92, y: 0.72, items: ['n8n', 'WhatsApp Business API', 'Telegram bots', 'Webhooks', 'Pandas'] },
+  { group: 'Infrastructure', x: 0.92, y: 0.16, items: ['Azure', 'AWS', 'Docker', 'Kubernetes', 'Terraform', 'GitHub Actions', 'Linux'] },
 ]

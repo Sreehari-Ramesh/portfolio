@@ -1,9 +1,12 @@
 import { useEffect, useRef, useState } from 'react'
 import Experience from './components/Experience'
 import Field from './components/Field'
+import AttentionText from './components/AttentionText'
 import ContactForm from './components/ContactForm'
-import Diagram from './components/Diagram'
-import { earlier, education, extras, facts, featured, jobs, profile, stack } from './data'
+import Project from './components/Project'
+import SkillSpace from './components/SkillSpace'
+import StreamText from './components/StreamText'
+import { earlier, education, extras, facts, featured, jobs, profile, stack, statement } from './data'
 
 const SECTIONS = [
   { id: 'about', label: 'About' },
@@ -93,7 +96,7 @@ export default function App() {
           <Field />
           <div className="hero-copy">
             <h1>{profile.name}</h1>
-            <p className="lede">I build AI agents that reason, retrieve and work together.</p>
+            <StreamText className="lede" text="I build AI agents that reason, retrieve and work together." />
             <p className="sub">
               {profile.role} in the {profile.location}, trained as a physicist.
             </p>
@@ -128,10 +131,14 @@ export default function App() {
           <section id="about" className="about">
             <h2 className="node">Many parts, one system</h2>
             <div className="about-grid">
-              <p className="statement">
-                Physics taught me to model systems of many interacting parts. Now the parts
-                are language models, tools and the people who check their work.
-              </p>
+              <div className="statement-wrap">
+                <AttentionText text={statement.text} links={statement.links} />
+                <p className="probe-hint" aria-hidden="true">
+                  <span className="mouse">Point at</span>
+                  <span className="touch">Tap</span> a word to see which others it attends to,
+                  like a language model reading this sentence.
+                </p>
+              </div>
               <dl className="facts">
                 {facts.map((f) => (
                   <div key={f.term}>
@@ -151,28 +158,7 @@ export default function App() {
             </p>
 
             {featured.map((p, i) => (
-              <article className={`project tone-${p.tone}${i % 2 ? ' flip' : ''}`} key={p.name}>
-                <div className="project-visual">
-                  <Diagram data={p.diagram} name={p.name} />
-                </div>
-                <div className="project-text">
-                  <h3>{p.name}</h3>
-                  <p className="summary">{p.summary}</p>
-                  <ul className="highlights">
-                    {p.highlights.map((h) => (
-                      <li key={h}>{h}</li>
-                    ))}
-                  </ul>
-                  <p className="tags">{p.stack.join(', ')}</p>
-                  {p.repo ? (
-                    <a className="link" href={p.repo} target="_blank" rel="noreferrer">
-                      View the code on GitHub
-                    </a>
-                  ) : (
-                    <p className="context">{p.context}</p>
-                  )}
-                </div>
-              </article>
+              <Project key={p.name} project={p} flip={i % 2 === 1} />
             ))}
 
             <div className="earlier-wrap">
@@ -232,18 +218,10 @@ export default function App() {
 
           <section id="stack" className="stack-section">
             <h2 className="node">What I work with</h2>
-            <dl className="stack">
-              {stack.map((s) => (
-                <div key={s.group}>
-                  <dt>{s.group}</dt>
-                  <dd>
-                    {s.items.map((i) => (
-                      <span key={i}>{i}</span>
-                    ))}
-                  </dd>
-                </div>
-              ))}
-            </dl>
+            <p className="section-lede">
+              Tools I use together sit close together, like points in an embedding space.
+            </p>
+            <SkillSpace groups={stack} />
           </section>
 
           <section id="contact" className="contact">

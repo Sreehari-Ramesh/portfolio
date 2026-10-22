@@ -254,14 +254,14 @@ button {
   color: var(--muted);
   pointer-events: none;
 }
-.hint .touch {
+.touch {
   display: none;
 }
 @media (hover: none) {
-  .hint .touch {
+  .touch {
     display: inline;
   }
-  .hint .mouse {
+  .mouse {
     display: none;
   }
 }
@@ -348,7 +348,6 @@ h2 {
   align-items: start;
 }
 .statement {
-  grid-column: 1 / span 7;
   font-family: var(--serif);
   font-size: clamp(1.45rem, 2.8vw, 2.1rem);
   line-height: 1.3;
@@ -420,12 +419,11 @@ h2 {
 .edge {
   stroke: var(--fern);
   stroke-width: 2;
-  opacity: 0.5;
+  stroke-opacity: 0.5;
 }
 .edge.to-out {
   stroke: var(--plaid);
-  opacity: 0.55;
-  stroke-dasharray: 5 5;
+  stroke-opacity: 0.6;
 }
 .d-node circle {
   fill: var(--surface);
@@ -725,31 +723,260 @@ h2 {
   color: var(--ink);
 }
 
-/* ---------- stack ---------- */
+/* ---------- streamed tagline ---------- */
 
-.stack {
+/* ghost and live text share one grid cell, so streaming never shifts layout */
+.stream {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0 var(--gutter);
 }
-.stack > div {
+.stream-ghost,
+.stream-live {
+  grid-area: 1 / 1;
+}
+.stream-ghost {
+  visibility: hidden;
+}
+.caret {
+  display: inline-block;
+  width: 0.45em;
+  height: 0.95em;
+  margin-left: 0.08em;
+  vertical-align: -0.1em;
+  border-radius: 2px;
+  background: var(--plaid);
+  animation: blink 1s steps(1) infinite;
+}
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* ---------- attention statement ---------- */
+
+.statement-wrap {
+  grid-column: 1 / span 7;
+}
+.attention .tok {
+  border-radius: 6px;
+  padding: 0 0.1em;
+  margin: 0 -0.1em;
+  background: rgba(62, 107, 83, calc(var(--w) * 0.34));
+  transition: background 0.25s;
+}
+.attention .tok.query {
+  background: rgba(194, 54, 46, 0.16);
+  box-shadow: inset 0 -2px 0 var(--plaid);
+}
+.probe-hint {
+  margin-top: 1.1rem;
+  font-size: var(--s-1);
+  color: var(--muted);
+  max-width: 44ch;
+}
+
+/* ---------- diagram motion ---------- */
+
+/* links draw themselves in order, then nodes appear, once per diagram */
+.diagram .edge {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  transition:
+    stroke-dashoffset 0.8s var(--ease) calc(var(--i) * 140ms + 150ms),
+    stroke-opacity 0.2s,
+    stroke-width 0.2s,
+    stroke 0.2s;
+}
+.diagram.drawn .edge {
+  stroke-dashoffset: 0;
+}
+.diagram .d-node {
+  opacity: 0;
+  transform: scale(0.7);
+  transform-box: fill-box;
+  transform-origin: center;
+  transition:
+    opacity 0.4s ease calc(var(--i) * 110ms),
+    transform 0.5s var(--ease) calc(var(--i) * 110ms);
+}
+.diagram.drawn .d-node {
+  opacity: 1;
+  transform: none;
+}
+.diagram.drawn .halo {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: halo 1.8s ease-out 1.2s 2;
+}
+@keyframes halo {
+  from {
+    transform: scale(1);
+    opacity: 0.3;
+  }
+  to {
+    transform: scale(1.9);
+    opacity: 0;
+  }
+}
+
+/* pointing at a highlight lights its nodes and dims the rest */
+.d-node > * {
+  transition: opacity 0.2s;
+}
+.diagram.focusing .d-node:not(.lit) > * {
+  opacity: 0.25;
+}
+.diagram.focusing .edge:not(.lit) {
+  stroke-opacity: 0.25;
+}
+.diagram .edge.lit {
+  stroke: var(--plaid);
+  stroke-width: 3;
+  stroke-opacity: 1;
+}
+.d-node.lit:not(.out) .core {
+  stroke: var(--plaid);
+  fill: #fbe9e6;
+}
+
+.highlights li {
+  transition: color 0.2s;
+  color: var(--ink-2);
+}
+.highlights li::before {
+  transition: background 0.2s, transform 0.2s;
+}
+.highlights li:hover,
+.highlights li.on {
+  color: var(--ink);
+}
+.highlights li:hover::before,
+.highlights li.on::before {
+  background: var(--plaid);
+  transform: scale(1.35);
+}
+.highlights li:focus-visible {
+  outline-offset: 2px;
+}
+
+/* ---------- skill map ---------- */
+
+.space {
   display: grid;
-  grid-template-columns: 8.5rem 1fr;
-  gap: 1rem;
-  padding: 1.1rem 0;
+  grid-template-columns: minmax(0, 8fr) minmax(15rem, 4fr);
+  gap: 2rem var(--gutter);
+  align-items: start;
+  margin-top: 2.5rem;
+}
+.space-plot {
+  background: var(--surface);
+  border-radius: 28px;
+  box-shadow: inset 0 0 0 1px var(--line);
+  padding: 0.75rem;
+}
+.space-plot svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.space-gridline {
+  fill: none;
+  stroke: var(--line);
+  stroke-width: 1;
+  opacity: 0.55;
+}
+.cluster {
+  cursor: pointer;
+}
+.hull {
+  fill: rgba(62, 107, 83, 0.05);
+  stroke: var(--line);
+  stroke-dasharray: 3 5;
+  transition: fill 0.3s, stroke 0.3s;
+}
+.cluster.on .hull {
+  fill: rgba(194, 54, 46, 0.06);
+  stroke: rgba(194, 54, 46, 0.45);
+}
+.pt {
+  fill: var(--fern);
+  opacity: 0.55;
+  transition: r 0.25s, opacity 0.25s, fill 0.25s;
+}
+.cluster.on .pt {
+  fill: var(--plaid);
+  opacity: 1;
+}
+.spoke {
+  stroke: var(--plaid);
+  stroke-opacity: 0.3;
+  stroke-width: 1.2;
+}
+.cluster-name,
+.pt-label {
+  font-family: var(--display);
+  font-weight: 600;
+  paint-order: stroke;
+  stroke: var(--surface);
+  stroke-width: 6px;
+  stroke-linejoin: round;
+}
+.cluster-name {
+  font-size: 17px;
+  fill: var(--muted);
+}
+.cluster.on .cluster-name {
+  fill: var(--ink);
+}
+.pt-label {
+  font-size: 17px;
+  fill: var(--ink);
+  pointer-events: none;
+}
+
+.space-picker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.space-picker button {
+  padding: 0.45rem 0.9rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-size: var(--s-1);
+  color: var(--ink-2);
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+.space-picker button:hover {
+  border-color: var(--fern);
+}
+.space-picker button[aria-pressed='true'] {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--surface);
+}
+.space-list {
+  margin-top: 1.75rem;
+  padding-top: 1.25rem;
   border-top: 1px solid var(--line);
 }
-.stack dt {
-  color: var(--muted);
-  font-size: var(--s-1);
-  padding-top: 0.15rem;
+.space-list h3 {
+  font-size: var(--s2);
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
-.stack dd {
-  line-height: 1.5;
+.space-list ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 0.75rem;
+  columns: 2;
+  column-gap: 1.5rem;
 }
-.stack dd span:not(:last-child)::after {
-  content: ', ';
-  color: var(--muted);
+.space-list li {
+  padding: 0.3rem 0;
+  font-family: var(--serif);
+  font-size: 1.1rem;
+  break-inside: avoid;
 }
 
 /* ---------- contact ---------- */
@@ -940,7 +1167,7 @@ h2 {
 }
 
 @media (max-width: 860px) {
-  .statement,
+  .statement-wrap,
   .facts,
   .contact-intro,
   .contact-form,
@@ -952,7 +1179,7 @@ h2 {
   .project .project-text {
     grid-row: 2;
   }
-  .stack {
+  .space {
     grid-template-columns: 1fr;
   }
   .earlier a {
@@ -1008,9 +1235,9 @@ h2 {
     left: var(--gutter);
     right: auto;
   }
-  .stack > div {
-    grid-template-columns: 1fr;
-    gap: 0.25rem;
+  /* names are too small to read once the map shrinks; the buttons carry them */
+  .cluster-name {
+    display: none;
   }
 }
 
