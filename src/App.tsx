@@ -138,8 +138,8 @@ export default function App() {
             </div>
           </div>
           <p className="hint" aria-hidden="true">
-            <span className="mouse">Move through the letters to scatter them. Click to generate them again.</span>
-            <span className="touch">Tap to generate the letters again.</span>
+            <span className="mouse">Move your cursor to drag the dots. Click to generate the letters again.</span>
+            <span className="touch">Drag across the screen to move the dots. Tap to generate them again.</span>
           </p>
         </section>
 
