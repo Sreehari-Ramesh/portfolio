@@ -892,18 +892,83 @@ h2 {
   text-decoration: underline;
   text-underline-offset: 0.25em;
 }
-.elsewhere {
+/* profile icons */
+.social {
+  list-style: none;
+  padding: 0;
   display: flex;
-  gap: 1.25rem;
-  margin-top: 1.25rem;
-  font-size: 0.875rem;
+  gap: 0.6rem;
+  margin-top: 1.5rem;
 }
-.elsewhere a {
-  text-decoration: none;
-  transition: color 0.15s;
+.social a {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+  color: var(--ink-2);
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
 }
-.elsewhere a:hover {
+.social a:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: rgba(var(--accent-rgb), 0.06);
+}
+.social svg {
+  fill: currentColor;
+}
+
+/* topic picker: radio buttons drawn as chips */
+.topics {
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+.topics legend {
+  padding: 0;
+  margin-bottom: 0.5rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--ink-2);
+}
+.topic-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.topic {
+  position: relative;
+  cursor: pointer;
+}
+.topic input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+.topic span {
+  display: inline-block;
+  padding: 0.4rem 0.9rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  font-size: 0.8125rem;
+  color: var(--ink-2);
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+.topic:hover span {
+  border-color: rgba(255, 255, 255, 0.28);
   color: var(--ink);
+}
+.topic input:checked + span {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--ground);
+  font-weight: 600;
+}
+.topic input:focus-visible + span {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 
 .contact-form {

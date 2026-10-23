@@ -1,15 +1,21 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useForm, ValidationError } from '@formspree/react'
 
-type Fields = { name: string; email: string; message: string }
+type Fields = { topic: string; name: string; email: string; message: string }
+
+// what people can write about; the choice is sent and used in the subject line
+const TOPICS = ['Hiring', 'A project', 'A question']
 
 // Sends messages through Formspree, which forwards them to Sreehari's inbox.
-// The browser checks required fields first; Formspree's own field errors
-// (for example a rejected email address) appear under the matching field.
+// People first pick what they're writing about, which lands in the email's
+// subject line. The browser checks required fields first; Formspree's own
+// field errors (for example a rejected email address) appear under the
+// matching field.
 
 export default function ContactForm({ formId }: { formId: string }) {
+  const [topic, setTopic] = useState(TOPICS[0])
   const [state, handleSubmit, reset] = useForm<Fields>(formId, {
-    data: { _subject: 'New message from your portfolio' },
+    data: { _subject: `Portfolio: ${topic}` },
   })
   const done = useRef<HTMLHeadingElement>(null)
 
@@ -34,6 +40,24 @@ export default function ContactForm({ formId }: { formId: string }) {
 
   return (
     <form className="contact-form" onSubmit={handleSubmit}>
+      <fieldset className="topics">
+        <legend>What's this about?</legend>
+        <div className="topic-chips">
+          {TOPICS.map((t) => (
+            <label key={t} className="topic">
+              <input
+                type="radio"
+                name="topic"
+                value={t}
+                checked={topic === t}
+                onChange={() => setTopic(t)}
+              />
+              <span>{t}</span>
+            </label>
+          ))}
+        </div>
+      </fieldset>
+
       <div className="form-field">
         <label htmlFor="cf-name">Your name</label>
         <input id="cf-name" name="name" type="text" autoComplete="name" required maxLength={120} />

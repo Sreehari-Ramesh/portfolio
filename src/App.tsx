@@ -4,6 +4,7 @@ import ContactForm from './components/ContactForm'
 import Cursor from './components/Cursor'
 import DotField from './components/DotField'
 import Project from './components/Project'
+import SocialLinks from './components/SocialLinks'
 import StreamText from './components/StreamText'
 import Timeline from './components/Timeline'
 import ToolRibbons from './components/ToolRibbons'
@@ -230,26 +231,19 @@ export default function App() {
           </section>
 
           <section id="contact" className="contact">
-            <h2 className="node end">Send me a message</h2>
+            <h2 className="node end">Let's work together</h2>
             <div className="contact-grid">
               <div className="contact-intro">
                 <p className="contact-lede">
-                  I'm open to AI engineering roles and collaborations on agents, RAG and
-                  LLMOps. Use the form, or email me directly.
+                  Hiring for an AI role, planning a project, or have a question about my work?
+                  Send a message and I'll reply by email.
                 </p>
                 <a className="email" href={`mailto:${profile.email}`}>
                   {/* if the address must wrap, break it after the @ rather than mid-word */}
                   {profile.email.split('@')[0]}@<wbr />
                   {profile.email.split('@')[1]}
                 </a>
-                <p className="elsewhere">
-                  <a href={profile.linkedin} target="_blank" rel="noreferrer">
-                    LinkedIn
-                  </a>
-                  <a href={profile.github} target="_blank" rel="noreferrer">
-                    GitHub
-                  </a>
-                </p>
+                <SocialLinks />
               </div>
               <ContactForm formId={profile.formspreeId} />
             </div>

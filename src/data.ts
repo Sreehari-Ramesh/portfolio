@@ -7,6 +7,7 @@ export const profile = {
   email: 'sreehariramesh14581@gmail.com',
   github: 'https://github.com/Sreehari-Ramesh',
   linkedin: 'https://www.linkedin.com/in/sreehari-ramesh-25b636224/',
+  x: 'https://x.com/SreehariRamesh0',
   // Formspree form that delivers contact-form messages to the email above
   formspreeId: 'mljgqyvb',
 }
