@@ -257,14 +257,16 @@ button {
 
 /* ---------- hero ---------- */
 
-/* the network is a fixed backdrop for the whole page, behind everything */
+/* the wave field sits behind the first screen only and fades as you scroll;
+   its lower edge melts into the black so the page below starts seamlessly */
 .scape {
   position: fixed;
   inset: 0;
   z-index: -1;
   width: 100%;
   height: 100%;
-  transition: opacity 0.2s linear;
+  mask-image: linear-gradient(to bottom, #000 72%, transparent 100%);
+  will-change: opacity, transform;
 }
 .hero {
   position: relative;
