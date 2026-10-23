@@ -29,6 +29,7 @@ export default function StreamText({
   active = true,
   mark,
   stepMs = TOKEN_MS,
+  byLetter = false,
 }: {
   text: string
   as?: ElementType
@@ -41,8 +42,10 @@ export default function StreamText({
   mark?: string
   // time between tokens; raise it for a slower, more visible reveal
   stepMs?: number
+  // type one character at a time, like a person typing, instead of word pieces
+  byLetter?: boolean
 }) {
-  const tokens = useMemo(() => tokenize(text), [text])
+  const tokens = useMemo(() => (byLetter ? [...text] : tokenize(text)), [text, byLetter])
   const reduce =
     typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
   const [count, setCount] = useState(reduce ? tokens.length : 0)

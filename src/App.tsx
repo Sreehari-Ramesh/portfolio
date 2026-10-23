@@ -129,7 +129,7 @@ export default function App() {
                   </p>
                 </div>
               </div>
-              <StreamText as="h1" text={GREETING} mark={profile.name} delay={500} stepMs={230} />
+              <StreamText as="h1" text={GREETING} mark={profile.name} delay={500} stepMs={70} byLetter />
               <p className="lede">{TAGLINE}</p>
               <p className="sub">{SUBLINE}</p>
               <div className="actions">
