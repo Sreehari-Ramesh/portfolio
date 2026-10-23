@@ -1,14 +1,15 @@
 :root {
-  /* leaf shadow: the wall, shirt and shadows from the portrait */
-  --page: #eef1ec;
-  --surface: #fafbf8;
-  --sage: #e1e8df;
-  --line: #ccd5cb;
-  --ink: #1c2520;
-  --ink-2: #34413a;
-  --muted: #5a6a5f;
-  --fern: #3e6b53;
-  --plaid: #c2362e;
+  /* fluorescence micrograph: a dark slide lit by GFP green and mCherry pink */
+  color-scheme: dark;
+  --page: #0d0f18;
+  --surface: #151827;
+  --band: rgba(22, 25, 42, 0.72);
+  --line: rgba(230, 234, 242, 0.12);
+  --ink: #e6eaf2;
+  --ink-2: #b9c0d0;
+  --muted: #8c93a8;
+  --accent: #6ee7a8;
+  --signal: #ff6b8b;
 
   --display: 'Bricolage Grotesque', system-ui, sans-serif;
   --serif: 'Newsreader', Georgia, serif;
@@ -47,6 +48,19 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* soft washes of green, pink and blue light, fixed so they shift as you scroll */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(55vw 45vh at 8% 4%, rgba(110, 231, 168, 0.13), transparent 70%),
+    radial-gradient(45vw 40vh at 92% 30%, rgba(255, 107, 139, 0.1), transparent 70%),
+    radial-gradient(60vw 50vh at 35% 95%, rgba(110, 139, 255, 0.12), transparent 70%);
+}
+
 a {
   color: inherit;
 }
@@ -60,7 +74,7 @@ button {
 }
 
 :focus-visible {
-  outline: 2px solid var(--plaid);
+  outline: 2px solid var(--signal);
   outline-offset: 3px;
   border-radius: 4px;
 }
@@ -78,7 +92,7 @@ button {
   left: 1rem;
   top: -3rem;
   z-index: 20;
-  background: var(--plaid);
+  background: var(--signal);
   color: var(--page);
   padding: 0.5rem 0.9rem;
 }
@@ -97,7 +111,7 @@ button {
   align-items: center;
   gap: 1rem;
   padding: 0.9rem var(--gutter);
-  background: rgba(238, 241, 236, 0.85);
+  background: rgba(13, 15, 24, 0.72);
   backdrop-filter: blur(10px);
 }
 .nav a {
@@ -130,7 +144,7 @@ button {
   height: 5px;
   margin-left: -2.5px;
   border-radius: 50%;
-  background: var(--fern);
+  background: var(--accent);
 }
 
 /* ---------- buttons ---------- */
@@ -142,11 +156,11 @@ button {
   border-radius: 999px;
   text-decoration: none;
   font-weight: 600;
-  background: rgba(250, 251, 248, 0.75);
+  background: rgba(21, 24, 39, 0.6);
   backdrop-filter: blur(4px);
 }
 .btn:hover {
-  border-color: var(--fern);
+  border-color: var(--accent);
 }
 .btn.primary {
   background: var(--ink);
@@ -154,8 +168,8 @@ button {
   color: var(--surface);
 }
 .btn.primary:hover {
-  background: var(--plaid);
-  border-color: var(--plaid);
+  background: var(--signal);
+  border-color: var(--signal);
 }
 
 /* ---------- hero ---------- */
@@ -189,6 +203,7 @@ button {
   height: 100%;
   border-radius: 50%;
   object-fit: cover;
+  box-shadow: 0 0 70px rgba(110, 231, 168, 0.16), 0 0 140px rgba(110, 139, 255, 0.12);
 }
 .portrait::before {
   content: '';
@@ -205,8 +220,8 @@ button {
   width: 14px;
   height: 14px;
   border-radius: 50%;
-  background: var(--plaid);
-  box-shadow: 0 0 0 5px rgba(194, 54, 46, 0.16);
+  background: var(--signal);
+  box-shadow: 0 0 0 5px rgba(255, 107, 139, 0.16);
 }
 .field {
   position: absolute;
@@ -287,7 +302,7 @@ button {
   position: absolute;
   inset: 0 0 auto;
   height: calc(var(--p, 0) * 100%);
-  background: linear-gradient(transparent, var(--fern) 6rem);
+  background: linear-gradient(transparent, var(--accent) 6rem);
   opacity: 0.9;
 }
 
@@ -320,14 +335,14 @@ h2 {
   transition: background 0.4s, border-color 0.4s, box-shadow 0.4s;
 }
 .node.lit::before {
-  background: var(--fern);
-  border-color: var(--fern);
-  box-shadow: 0 0 0 5px rgba(62, 107, 83, 0.16);
+  background: var(--accent);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 5px rgba(110, 231, 168, 0.16);
 }
 .node.end.lit::before {
-  background: var(--plaid);
-  border-color: var(--plaid);
-  box-shadow: 0 0 0 7px rgba(194, 54, 46, 0.16);
+  background: var(--signal);
+  border-color: var(--signal);
+  box-shadow: 0 0 0 7px rgba(255, 107, 139, 0.16);
 }
 
 .section-lede {
@@ -412,7 +427,7 @@ h2 {
   transition: color 0.2s;
 }
 .project-row.linked:hover h3 {
-  color: var(--fern);
+  color: var(--accent);
 }
 .summary {
   font-family: var(--serif);
@@ -439,7 +454,7 @@ h2 {
   color: var(--ink-2);
 }
 .case .result dt {
-  color: var(--plaid);
+  color: var(--signal);
 }
 .case .result dd {
   font-weight: 600;
@@ -458,7 +473,7 @@ h2 {
   gap: 0.5rem;
   margin-top: 1.4rem;
   font-weight: 600;
-  color: var(--fern);
+  color: var(--accent);
   text-decoration: underline;
   text-underline-offset: 0.25em;
   text-decoration-thickness: 1px;
@@ -467,18 +482,18 @@ h2 {
   fill: currentColor;
 }
 .project-row.linked:hover .row-link {
-  color: var(--plaid);
+  color: var(--signal);
 }
 .link {
   display: inline-block;
   margin-top: 0.9rem;
   font-weight: 600;
-  color: var(--fern);
+  color: var(--accent);
   text-underline-offset: 0.25em;
   text-decoration-thickness: 1px;
 }
 .link:hover {
-  color: var(--plaid);
+  color: var(--signal);
 }
 
 .earlier-wrap {
@@ -494,7 +509,7 @@ h2 {
   content: '+';
   display: inline-block;
   width: 1.1em;
-  color: var(--fern);
+  color: var(--accent);
   transition: transform 0.25s;
 }
 .toggle[aria-expanded='true']::before {
@@ -516,7 +531,7 @@ h2 {
   text-decoration: none;
 }
 .earlier a:hover .e-name {
-  color: var(--fern);
+  color: var(--accent);
 }
 .e-name {
   font-weight: 600;
@@ -542,13 +557,13 @@ h2 {
   content: '';
   position: absolute;
   inset: 0;
-  background: var(--sage);
-  box-shadow: 0 0 0 100vmax var(--sage);
+  background: var(--band);
+  box-shadow: 0 0 0 100vmax var(--band);
   clip-path: inset(0 -100vmax);
   z-index: -1;
 }
 .impact-section .node:not(.lit)::before {
-  background: var(--sage);
+  background: var(--surface);
   border-color: var(--line);
 }
 
@@ -573,7 +588,7 @@ h2 {
   font-stretch: 75%;
   letter-spacing: -0.02em;
   line-height: 1;
-  color: var(--fern);
+  color: var(--accent);
 }
 .impact-text {
   max-width: 32ch;
@@ -622,13 +637,13 @@ h2 {
   width: 11px;
   height: 11px;
   border-radius: 50%;
-  background: var(--sage);
-  border: 2px solid var(--fern);
+  background: var(--surface);
+  border: 2px solid var(--accent);
 }
 .career li:first-child::before {
-  background: var(--plaid);
-  border-color: var(--plaid);
-  box-shadow: 0 0 0 4px rgba(194, 54, 46, 0.15);
+  background: var(--signal);
+  border-color: var(--signal);
+  box-shadow: 0 0 0 4px rgba(255, 107, 139, 0.15);
 }
 .career-period {
   display: block;
@@ -693,7 +708,7 @@ h2 {
   margin-left: 0.08em;
   vertical-align: -0.1em;
   border-radius: 2px;
-  background: var(--plaid);
+  background: var(--signal);
   animation: blink 1s steps(1) infinite;
 }
 @keyframes blink {
@@ -711,12 +726,12 @@ h2 {
   border-radius: 6px;
   padding: 0 0.1em;
   margin: 0 -0.1em;
-  background: rgba(62, 107, 83, calc(var(--w) * 0.34));
+  background: rgba(110, 231, 168, calc(var(--w) * 0.28));
   transition: background 0.25s;
 }
 .attention .tok.query {
-  background: rgba(194, 54, 46, 0.16);
-  box-shadow: inset 0 -2px 0 var(--plaid);
+  background: rgba(255, 107, 139, 0.16);
+  box-shadow: inset 0 -2px 0 var(--signal);
 }
 .probe-hint {
   margin-top: 1.1rem;
@@ -772,11 +787,11 @@ h2 {
   height: 5px;
   margin-top: -2px;
   border-radius: 50%;
-  background: var(--fern);
+  background: var(--accent);
   opacity: 0.45;
 }
 .ribbon-item:hover {
-  color: var(--plaid);
+  color: var(--signal);
 }
 
 /* three voices so the bands read as layers, not repeats */
@@ -803,7 +818,7 @@ h2 {
   font-weight: 700;
   font-stretch: 75%;
   letter-spacing: -0.01em;
-  color: var(--fern);
+  color: var(--accent);
 }
 
 .tool-groups {
@@ -845,7 +860,7 @@ h2 {
   font-size: clamp(1rem, 1.6vw, 1.2rem);
   font-weight: 700;
   letter-spacing: -0.02em;
-  color: var(--plaid);
+  color: var(--signal);
   text-underline-offset: 0.2em;
   text-decoration-thickness: 2px;
   overflow-wrap: break-word;
@@ -921,25 +936,25 @@ h2 {
 .form-field input:focus,
 .form-field textarea:focus {
   outline: none;
-  border-color: var(--fern);
-  box-shadow: 0 0 0 4px rgba(62, 107, 83, 0.15);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px rgba(110, 231, 168, 0.15);
 }
 /* only flag a field after someone has typed in it and left it invalid */
 .form-field input:user-invalid,
 .form-field textarea:user-invalid,
 .form-field input[aria-invalid='true'],
 .form-field textarea[aria-invalid='true'] {
-  border-color: var(--plaid);
+  border-color: var(--signal);
 }
 .field-error,
 .form-error {
   font-size: var(--s-1);
-  color: var(--plaid);
+  color: var(--signal);
 }
 .form-error {
   padding: 0.75rem 1rem;
   border-radius: 12px;
-  background: rgba(194, 54, 46, 0.08);
+  background: rgba(255, 107, 139, 0.08);
 }
 .contact-form .btn {
   justify-self: start;
@@ -972,8 +987,8 @@ h2 {
   height: 12px;
   margin-right: 0.6rem;
   border-radius: 50%;
-  background: var(--plaid);
-  box-shadow: 0 0 0 5px rgba(194, 54, 46, 0.16);
+  background: var(--signal);
+  box-shadow: 0 0 0 5px rgba(255, 107, 139, 0.16);
   vertical-align: 0.15em;
 }
 .form-done p {

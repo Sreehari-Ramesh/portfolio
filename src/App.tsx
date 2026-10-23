@@ -118,7 +118,7 @@ export default function App() {
           </figure>
           <p className="hint">
             <span className="mouse">Click</span>
-            <span className="touch">Tap</span> anywhere to send a message between agents
+            <span className="touch">Tap</span> anywhere to fire a neuron
           </p>
         </section>
 
