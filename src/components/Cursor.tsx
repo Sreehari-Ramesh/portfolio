@@ -2,8 +2,11 @@ import { useEffect, useRef } from 'react'
 
 // A custom pointer for mouse users: a red dot that tracks the pointer exactly
 // and a thin ring that glides after it. Over a link or button the ring
-// wraps that element; a click sends out a quick pulse. Touch screens and
-// text fields keep their native cursor, and reduced motion drops the glide.
+// wraps that element; a click sends out a quick pulse. It switches on at the
+// first real mouse or trackpad movement rather than trusting media queries,
+// which report many touch-screen laptops as touch-only, and steps aside
+// whenever touch is used. Text fields keep their native cursor, and reduced
+// motion drops the glide.
 
 const TARGETS = 'a, button, [role="button"], .project-row'
 
@@ -12,12 +15,10 @@ export default function Cursor() {
   const ring = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     const d = dot.current!
     const r = ring.current!
     const root = document.documentElement
-    root.classList.add('has-cursor')
 
     const pos = { x: -100, y: -100 }
     const ringBox = { x: -100, y: -100, w: 30, h: 30 }
@@ -25,11 +26,22 @@ export default function Cursor() {
     let raf = 0
 
     const onMove = (e: PointerEvent) => {
+      // touch hands control back to the native cursor; a mouse takes it again
+      if (e.pointerType === 'touch') {
+        root.classList.remove('has-cursor')
+        return
+      }
+      if (!root.classList.contains('has-cursor')) {
+        root.classList.add('has-cursor')
+        // start the ring where the pointer is, not gliding in from a corner
+        Object.assign(ringBox, { x: e.clientX, y: e.clientY })
+      }
       pos.x = e.clientX
       pos.y = e.clientY
       d.style.transform = `translate(${pos.x}px, ${pos.y}px)`
       if (!(e.target instanceof Element)) return
       const el = e.target as HTMLElement
+      // any movement over the page shows it again, so it can never stay hidden
       const typing = !!el.closest('input, textarea')
       root.classList.toggle('cursor-hidden', typing)
       const t = typing ? null : (el.closest(TARGETS) as HTMLElement | null)
@@ -40,7 +52,11 @@ export default function Cursor() {
     }
     const onLeave = () => root.classList.add('cursor-hidden')
     const onEnter = () => root.classList.remove('cursor-hidden')
-    const onDown = () => {
+    const onDown = (e: PointerEvent) => {
+      if (e.pointerType === 'touch') {
+        root.classList.remove('has-cursor')
+        return
+      }
       r.classList.remove('pulse')
       void r.offsetWidth // restart the pulse animation
       r.classList.add('pulse')
