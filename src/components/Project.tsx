@@ -1,8 +1,9 @@
 import type { Project as ProjectData } from '../data'
 
-// One project as a short case study: problem, what was built, result. When
-// the code is public the whole row is a link to its GitHub repository;
-// otherwise it notes where it was built.
+// One project as a short story: a one-line summary, then a paragraph on the
+// need and what was built, ending on its result. When the code is public the
+// whole row is a link to its GitHub repository; otherwise it notes where it
+// was built.
 
 function GitHubMark() {
   return (
@@ -29,20 +30,9 @@ export default function Project({ project: p }: { project: ProjectData }) {
       </div>
       <div className="row-body">
         <p className="summary">{p.summary}</p>
-        <dl className="case">
-          <div>
-            <dt>The problem</dt>
-            <dd>{p.problem}</dd>
-          </div>
-          <div>
-            <dt>What I built</dt>
-            <dd>{p.built}</dd>
-          </div>
-          <div className="result">
-            <dt>Result</dt>
-            <dd>{p.outcome}</dd>
-          </div>
-        </dl>
+        <p className="story">
+          {p.story} <span className="outcome">{p.outcome}</span>
+        </p>
       </div>
     </>
   )

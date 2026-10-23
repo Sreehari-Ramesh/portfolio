@@ -41,8 +41,9 @@ export const statement = {
 export type Project = {
   name: string
   summary: string
-  problem: string
-  built: string
+  // one paragraph: the need, then what was built
+  story: string
+  // the closing sentence of that paragraph, set brighter
   outcome: string
   stack: string[]
   repo?: string
@@ -53,33 +54,27 @@ export const featured: Project[] = [
   {
     name: 'Loomin-Docs',
     summary: 'A shared document editor with an AI assistant that runs fully offline.',
-    problem:
-      "Teams working with sensitive documents can't paste them into cloud AI tools.",
-    built:
-      'A shared editor where an assistant answers questions from your own files and cites the passages it used, with models running locally through Ollama.',
-    outcome: 'Runs fully offline on an air-gapped RHEL 9 server, installed from a single bundle.',
+    story:
+      "Teams working with sensitive documents can't paste them into cloud AI tools, so I built a shared editor whose assistant answers from your own files and cites the passages it used, with every model running locally through Ollama.",
+    outcome: 'It installs on an air-gapped RHEL 9 server from a single bundle.',
     stack: ['React', 'TipTap', 'FastAPI', 'WebSockets', 'FAISS', 'Ollama', 'Docker'],
     repo: 'https://github.com/Sreehari-Ramesh/Loomin-docs_',
   },
   {
     name: 'Dubai travel agents',
     summary: 'A chat where a small team of agents finds and books activities in Dubai.',
-    problem:
-      'Booking activities over chat means answering questions, checking availability and knowing when a person should step in.',
-    built:
-      'A root agent that routes each message to an information or booking specialist, and escalates hard cases to a human supervisor by email.',
-    outcome: 'Supervisor replies flow back into the same conversation automatically.',
+    story:
+      'Booking activities over chat means answering questions, checking availability and knowing when a person should step in. A root agent routes each message to an information or booking specialist and escalates hard cases to a human supervisor by email.',
+    outcome: 'Their reply flows straight back into the same conversation.',
     stack: ['Google ADK', 'LiteLLM', 'FastAPI', 'React', 'SMTP / IMAP'],
     repo: 'https://github.com/Sreehari-Ramesh/multi-agent-travel-assistant-system',
   },
   {
     name: 'Text-to-SQL agent',
     summary: 'Lets a business ask its own database questions in plain language.',
-    problem:
-      'Business teams waited on manual reports to answer simple questions about their own data.',
-    built:
-      'An agent that turns plain-language questions into SQL, runs it, does the sums and explains the result in a sentence.',
-    outcome: 'Cut reliance on manual reporting by about 70%.',
+    story:
+      'Business teams were waiting on manual reports for simple questions about their own data. This agent turns a plain-language question into SQL, runs it, does the sums and explains the answer in a sentence.',
+    outcome: 'It cut reliance on manual reporting by about 70%.',
     stack: ['Python', 'LLM tool calling', 'SQL', 'SQLAlchemy', 'FastAPI'],
     context: 'Built at White Paper Alliance',
   },

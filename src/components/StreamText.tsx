@@ -20,9 +20,6 @@ function tokenize(text: string) {
   return tokens
 }
 
-// roughly how long a line takes to stream, so the next can start after it
-export const streamDuration = (text: string) => tokenize(text).length * (TOKEN_MS + 20)
-
 export default function StreamText({
   text,
   as: Tag = 'p',
@@ -30,6 +27,7 @@ export default function StreamText({
   delay = 350,
   holdCaret = 1800,
   active = true,
+  mark,
 }: {
   text: string
   as?: ElementType
@@ -38,6 +36,8 @@ export default function StreamText({
   holdCaret?: number
   // stays blank until true, so a line can wait to be scrolled into view
   active?: boolean
+  // a phrase within the text to set in the accent colour
+  mark?: string
 }) {
   const tokens = useMemo(() => tokenize(text), [text])
   const reduce =
@@ -59,14 +59,28 @@ export default function StreamText({
 
   const writing = count > 0 && !settled
 
+  // colour the marked phrase in whatever part of the text is showing so far
+  const at = mark ? text.indexOf(mark) : -1
+  const paint = (shown: string) => {
+    if (at < 0 || !mark) return shown
+    const end = at + mark.length
+    return (
+      <>
+        {shown.slice(0, at)}
+        <span className="mark">{shown.slice(at, end)}</span>
+        {shown.slice(end)}
+      </>
+    )
+  }
+
   return (
     <Tag className={`stream ${className ?? ''}`}>
       <span className="sr-only">{text}</span>
       <span className="stream-ghost" aria-hidden="true">
-        {text}
+        {paint(text)}
       </span>
       <span className="stream-live" aria-hidden="true">
-        {tokens.slice(0, count).join('')}
+        {paint(tokens.slice(0, count).join(''))}
         {writing && <span className="caret" />}
       </span>
     </Tag>

@@ -359,6 +359,9 @@ button {
 .stream-ghost {
   visibility: hidden;
 }
+.stream .mark {
+  color: var(--accent);
+}
 .caret {
   display: inline-block;
   width: 0.5em;
@@ -504,32 +507,14 @@ h2 {
   color: var(--ink);
 }
 
-/* problem, build and result as a small labelled table */
-.case {
-  margin-top: 1.1rem;
-  border-top: 1px solid var(--line);
+/* the story reads as one paragraph that ends on its result */
+.story {
+  margin-top: 0.85rem;
+  max-width: 62ch;
+  font-size: 0.9rem;
+  line-height: 1.65;
 }
-.case > div {
-  display: grid;
-  grid-template-columns: 7.5rem 1fr;
-  gap: 1rem;
-  padding: 0.75rem 0;
-  border-bottom: 1px solid var(--line);
-}
-.case dt {
-  padding-top: 0.15rem;
-  font-family: var(--mono);
-  font-size: 0.75rem;
-  color: var(--muted);
-}
-.case dd {
-  font-size: 0.875rem;
-  line-height: 1.55;
-}
-.case .result dt {
-  color: var(--accent);
-}
-.case .result dd {
+.story .outcome {
   font-weight: 500;
   color: var(--ink);
 }
@@ -1075,10 +1060,6 @@ h2 {
   .principles,
   .tool-groups {
     grid-template-columns: 1fr;
-  }
-  .case > div {
-    grid-template-columns: 1fr;
-    gap: 0.2rem;
   }
 }
 

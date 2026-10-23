@@ -4,7 +4,7 @@ import ContactForm from './components/ContactForm'
 import Cursor from './components/Cursor'
 import DotField from './components/DotField'
 import Project from './components/Project'
-import StreamText, { streamDuration } from './components/StreamText'
+import StreamText from './components/StreamText'
 import Timeline from './components/Timeline'
 import ToolRibbons from './components/ToolRibbons'
 import { earlier, experience, facts, featured, principles, profile, stack, statement } from './data'
@@ -13,9 +13,6 @@ const GREETING = `Hi, I'm ${profile.name}.`
 const TAGLINE = 'I build AI agents that reason, retrieve and work together.'
 const SUBLINE =
   'Trained as a physicist. Now I design multi-agent systems, retrieval pipelines and the backends that run them in production.'
-// each line starts streaming shortly after the one before it finishes
-const TAGLINE_AT = 400 + streamDuration(GREETING) + 250
-const SUBLINE_AT = TAGLINE_AT + streamDuration(TAGLINE) + 250
 
 const SECTIONS = [
   { id: 'work', label: 'Work' },
@@ -124,9 +121,9 @@ export default function App() {
                   </p>
                 </div>
               </div>
-              <StreamText as="h1" text={GREETING} delay={400} holdCaret={0} />
-              <StreamText className="lede" text={TAGLINE} delay={TAGLINE_AT} holdCaret={0} />
-              <StreamText className="sub" text={SUBLINE} delay={SUBLINE_AT} />
+              <StreamText as="h1" text={GREETING} mark={profile.name} delay={400} />
+              <p className="lede">{TAGLINE}</p>
+              <p className="sub">{SUBLINE}</p>
               <div className="actions">
                 <a className="btn primary" href="#work">
                   See my work
