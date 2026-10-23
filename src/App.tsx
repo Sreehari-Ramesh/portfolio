@@ -75,6 +75,13 @@ function useSignalPath() {
   return { path, current }
 }
 
+// "Start a conversation" brings the form into view and focuses its first field
+function startConversation() {
+  const form = document.getElementById('message')
+  form?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+  window.setTimeout(() => document.getElementById('cf-name')?.focus({ preventScroll: true }), 450)
+}
+
 export default function App() {
   const { path, current } = useSignalPath()
   const [showEarlier, setShowEarlier] = useState(false)
@@ -231,20 +238,24 @@ export default function App() {
           </section>
 
           <section id="contact" className="contact">
-            <h2 className="node end">Let's work together</h2>
-            <div className="contact-grid">
-              <div className="contact-intro">
-                <p className="contact-lede">
-                  Hiring for an AI role, planning a project, or have a question about my work?
-                  Send a message and I'll reply by email.
-                </p>
-                <a className="email" href={`mailto:${profile.email}`}>
-                  {/* if the address must wrap, break it after the @ rather than mid-word */}
-                  {profile.email.split('@')[0]}@<wbr />
-                  {profile.email.split('@')[1]}
-                </a>
-                <SocialLinks />
-              </div>
+            <p className="contact-kicker">get in touch</p>
+            <h2 className="node end contact-title">
+              Let's work <span className="mark">together</span>.
+            </h2>
+            <p className="contact-lede">
+              Hiring for an AI role, planning a project, or have a question about my work? Send a
+              message and I'll reply by email.
+            </p>
+            <div className="contact-actions">
+              <button type="button" className="btn primary" onClick={startConversation}>
+                Start a conversation
+              </button>
+              <a className="btn email-pill" href={`mailto:${profile.email}`}>
+                {profile.email}
+              </a>
+              <SocialLinks />
+            </div>
+            <div className="contact-form-wrap" id="message">
               <ContactForm formId={profile.formspreeId} />
             </div>
           </section>

@@ -858,40 +858,66 @@ h2 {
 
 /* ---------- contact ---------- */
 
-.contact-grid {
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  gap: 2.5rem var(--gutter);
-  align-items: start;
+/* a closing statement: one very large centred line with the last word in
+   red, a short line under it, then the ways to reach out */
+.path > section.contact {
+  text-align: center;
+  padding-block: clamp(6rem, 16vh, 10rem) clamp(4rem, 10vh, 6rem);
 }
-.contact-intro {
-  grid-column: 1 / span 5;
+.contact-kicker {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: var(--muted);
+  margin-bottom: 1.5rem;
+}
+.contact-title {
+  margin: 0 auto;
+  max-width: 12ch;
+  font-size: clamp(3rem, 9vw, 7.5rem);
+  font-weight: 600;
+  letter-spacing: -0.045em;
+  line-height: 0.95;
+}
+.contact-title .mark {
+  color: var(--accent);
+}
+/* the path's end node sits beside the big headline's first line */
+.contact-title.node::before {
+  top: calc(0.48em - 5px);
+}
+.contact-lede {
+  max-width: 46ch;
+  margin: 2rem auto 0;
+  font-size: clamp(1rem, 1.5vw, 1.15rem);
+  line-height: 1.6;
+}
+.contact-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 2.5rem;
+}
+.email-pill {
+  overflow-wrap: anywhere;
+}
+.contact-actions .social {
+  margin: 0;
+}
+.contact-form-wrap {
+  max-width: 36rem;
+  margin: clamp(3rem, 8vh, 4.5rem) auto 0;
+  text-align: left;
 }
 .contact-form,
 .form-done {
-  grid-column: 7 / span 6;
   padding: clamp(1.25rem, 3vw, 1.75rem);
   background: var(--panel);
   border: 1px solid var(--line);
   border-radius: var(--radius);
 }
-.contact-lede {
-  max-width: 44ch;
-}
-.email {
-  display: inline-block;
-  margin-top: 1.5rem;
-  font-family: var(--display);
-  font-size: clamp(1rem, 1.6vw, 1.2rem);
-  font-weight: 500;
-  color: var(--accent);
-  text-decoration: none;
-  overflow-wrap: break-word;
-}
-.email:hover {
-  text-decoration: underline;
-  text-underline-offset: 0.25em;
-}
+
 /* profile icons */
 .social {
   list-style: none;
@@ -1091,10 +1117,7 @@ h2 {
   .row-head,
   .row-body,
   .statement-wrap,
-  .facts,
-  .contact-intro,
-  .contact-form,
-  .form-done {
+  .facts {
     grid-column: 1 / -1;
   }
   .principles,
