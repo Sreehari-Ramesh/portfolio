@@ -9,7 +9,7 @@ npm run build    # production build into dist/
 ```
 
 All content (projects, experience, stack, contact) lives in `src/data.ts`.
-The page background animation is `src/components/AttentionField.tsx`.
+The page background animation is `src/components/LossLandscape.tsx`.
 
 ## Deploying
 
