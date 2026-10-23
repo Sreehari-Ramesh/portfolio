@@ -945,58 +945,6 @@ h2 {
   fill: currentColor;
 }
 
-/* topic picker: radio buttons drawn as chips */
-.topics {
-  border: 0;
-  padding: 0;
-  margin: 0;
-}
-.topics legend {
-  padding: 0;
-  margin-bottom: 0.5rem;
-  font-size: 0.8125rem;
-  font-weight: 500;
-  color: var(--ink-2);
-}
-.topic-chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-.topic {
-  position: relative;
-  cursor: pointer;
-}
-.topic input {
-  position: absolute;
-  opacity: 0;
-  width: 1px;
-  height: 1px;
-}
-.topic span {
-  display: inline-block;
-  padding: 0.4rem 0.9rem;
-  border: 1px solid var(--line-strong);
-  border-radius: 999px;
-  font-size: 0.8125rem;
-  color: var(--ink-2);
-  transition: background 0.15s, border-color 0.15s, color 0.15s;
-}
-.topic:hover span {
-  border-color: rgba(255, 255, 255, 0.28);
-  color: var(--ink);
-}
-.topic input:checked + span {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: var(--ground);
-  font-weight: 600;
-}
-.topic input:focus-visible + span {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
-}
-
 .contact-form {
   display: grid;
   gap: 1.1rem;

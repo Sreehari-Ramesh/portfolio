@@ -5,7 +5,7 @@ import { useEffect, useRef } from 'react'
 // wraps that element; a click sends out a quick pulse. Touch screens and
 // text fields keep their native cursor, and reduced motion drops the glide.
 
-const TARGETS = 'a, button, [role="button"], .project-row, .topic'
+const TARGETS = 'a, button, [role="button"], .project-row'
 
 export default function Cursor() {
   const dot = useRef<HTMLDivElement>(null)
