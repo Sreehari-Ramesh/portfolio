@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import AttentionText from './components/AttentionText'
 import ContactForm from './components/ContactForm'
 import Cursor from './components/Cursor'
-import LossLandscape from './components/LossLandscape'
+import DiffusionField from './components/DiffusionField'
 import Project from './components/Project'
 import StreamText, { streamDuration } from './components/StreamText'
 import Timeline from './components/Timeline'
@@ -83,7 +83,7 @@ export default function App() {
 
   return (
     <>
-      <LossLandscape />
+      <DiffusionField />
       <Cursor />
       <a className="skip" href="#work">
         Skip to work
@@ -138,8 +138,8 @@ export default function App() {
             </div>
           </div>
           <p className="hint" aria-hidden="true">
-            <span className="mouse">Move your cursor to run gradient descent. Click to start another run.</span>
-            <span className="touch">Scroll or tap to run gradient descent.</span>
+            <span className="mouse">Move through the letters to scatter them. Click to generate them again.</span>
+            <span className="touch">Tap to generate the letters again.</span>
           </p>
         </section>
 
