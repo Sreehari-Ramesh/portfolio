@@ -9,7 +9,7 @@ npm run build    # production build into dist/
 ```
 
 All content (projects, experience, stack, contact) lives in `src/data.ts`.
-The hero background animation is `src/components/DiffusionField.tsx`.
+The hero background animation is `src/components/DotField.tsx`.
 
 ## Deploying
 

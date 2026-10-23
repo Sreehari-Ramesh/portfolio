@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import AttentionText from './components/AttentionText'
 import ContactForm from './components/ContactForm'
 import Cursor from './components/Cursor'
-import DiffusionField from './components/DiffusionField'
+import DotField from './components/DotField'
 import Project from './components/Project'
 import StreamText, { streamDuration } from './components/StreamText'
 import Timeline from './components/Timeline'
@@ -83,7 +83,7 @@ export default function App() {
 
   return (
     <>
-      <DiffusionField />
+      <DotField />
       <Cursor />
       <a className="skip" href="#work">
         Skip to work
@@ -138,8 +138,8 @@ export default function App() {
             </div>
           </div>
           <p className="hint" aria-hidden="true">
-            <span className="mouse">Move your cursor to drag the dots. Click to generate the letters again.</span>
-            <span className="touch">Drag across the screen to move the dots. Tap to generate them again.</span>
+            <span className="mouse">Move your cursor to drag the dots. Click to send a burst.</span>
+            <span className="touch">Drag across the screen to move the dots. Tap to send a burst.</span>
           </p>
         </section>
 

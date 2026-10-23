@@ -1029,13 +1029,10 @@ h2 {
 /* ---------- responsive ---------- */
 
 @media (max-width: 900px) {
-  /* on narrow screens the network sits above and the copy settles below */
-  .hero {
-    align-items: flex-end;
-  }
+  /* on narrow screens the copy sits in the middle of the dot grid */
   .hero-inner {
-    padding-top: 45svh;
-    padding-bottom: 4.5rem;
+    padding-top: 6rem;
+    padding-bottom: 5.5rem;
   }
   .hint {
     left: var(--gutter);
