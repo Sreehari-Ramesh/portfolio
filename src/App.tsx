@@ -2,11 +2,11 @@ import { useEffect, useRef, useState } from 'react'
 import AttentionText from './components/AttentionText'
 import ContactForm from './components/ContactForm'
 import Cursor from './components/Cursor'
+import LossLandscape from './components/LossLandscape'
 import Project from './components/Project'
 import StreamText, { streamDuration } from './components/StreamText'
 import Timeline from './components/Timeline'
 import ToolRibbons from './components/ToolRibbons'
-import WaveField from './components/WaveField'
 import { earlier, experience, facts, featured, principles, profile, stack, statement } from './data'
 
 const GREETING = `Hi, I'm ${profile.name}.`
@@ -83,7 +83,7 @@ export default function App() {
 
   return (
     <>
-      <WaveField />
+      <LossLandscape />
       <Cursor />
       <a className="skip" href="#work">
         Skip to work
@@ -138,8 +138,8 @@ export default function App() {
             </div>
           </div>
           <p className="hint" aria-hidden="true">
-            <span className="mouse">Move to make waves. Click to drop a new wavefront.</span>
-            <span className="touch">Tap to drop a new wavefront.</span>
+            <span className="mouse">Move your cursor to run gradient descent. Click to start another run.</span>
+            <span className="touch">Scroll or tap to run gradient descent.</span>
           </p>
         </section>
 

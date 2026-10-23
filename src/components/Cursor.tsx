@@ -28,6 +28,7 @@ export default function Cursor() {
       pos.x = e.clientX
       pos.y = e.clientY
       d.style.transform = `translate(${pos.x}px, ${pos.y}px)`
+      if (!(e.target instanceof Element)) return
       const el = e.target as HTMLElement
       const typing = !!el.closest('input, textarea')
       root.classList.toggle('cursor-hidden', typing)

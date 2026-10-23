@@ -3,7 +3,8 @@ import { useEffect, useMemo, useState, type ElementType } from 'react'
 // Reveals text the way a language model streams a reply: a few characters
 // (one "token") at a time, with a caret while it writes. The full text is
 // laid out invisibly underneath so nothing shifts, and screen readers get the
-// whole text at once. `delay` lets one line start after another finishes.
+// whole text at once. `delay` lets one line start after another finishes,
+// and `active` holds a line back until it is wanted (for example, in view).
 
 const TOKEN_MS = 55
 
@@ -28,12 +29,15 @@ export default function StreamText({
   className,
   delay = 350,
   holdCaret = 1800,
+  active = true,
 }: {
   text: string
   as?: ElementType
   className?: string
   delay?: number
   holdCaret?: number
+  // stays blank until true, so a line can wait to be scrolled into view
+  active?: boolean
 }) {
   const tokens = useMemo(() => tokenize(text), [text])
   const reduce =
@@ -42,7 +46,7 @@ export default function StreamText({
   const [settled, setSettled] = useState(reduce)
 
   useEffect(() => {
-    if (reduce) return
+    if (reduce || !active) return
     let i = 0
     let timer = window.setTimeout(function tick() {
       i += 1
@@ -51,7 +55,7 @@ export default function StreamText({
       else timer = window.setTimeout(() => setSettled(true), holdCaret)
     }, delay)
     return () => window.clearTimeout(timer)
-  }, [tokens, reduce, delay, holdCaret])
+  }, [tokens, reduce, delay, holdCaret, active])
 
   const writing = count > 0 && !settled
 
