@@ -1,15 +1,19 @@
 import { useEffect, useRef, useState } from 'react'
-import NeuralNet from './components/NeuralNet'
+import NeuralScape from './components/NeuralScape'
 import AttentionText from './components/AttentionText'
 import ContactForm from './components/ContactForm'
 import Project from './components/Project'
-import StreamText from './components/StreamText'
+import StreamText, { streamDuration } from './components/StreamText'
+import Timeline from './components/Timeline'
 import ToolRibbons from './components/ToolRibbons'
-import { career, earlier, facts, featured, impact, principles, profile, stack, statement } from './data'
+import { earlier, experience, facts, featured, principles, profile, stack, statement } from './data'
+
+const GREETING = `Hi, I'm ${profile.name}.`
+const TAGLINE = 'I build AI agents that reason, retrieve and work together.'
 
 const SECTIONS = [
   { id: 'work', label: 'Work' },
-  { id: 'impact', label: 'Impact' },
+  { id: 'experience', label: 'Experience' },
   { id: 'approach', label: 'Approach' },
   { id: 'stack', label: 'Stack' },
   { id: 'contact', label: 'Contact' },
@@ -92,41 +96,51 @@ export default function App() {
 
       <main>
         <section className="hero" id="top">
-          <div className="hero-copy">
-            <div className="identity">
-              <img
-                className="avatar"
-                src="./portrait.png"
-                width={72}
-                height={72}
-                alt={`Illustrated portrait of ${profile.name}`}
+          <NeuralScape />
+          <div className="hero-inner">
+            <div className="hero-copy">
+              <div className="identity">
+                <img
+                  className="avatar"
+                  src="./portrait.png"
+                  width={72}
+                  height={72}
+                  alt={`Illustrated portrait of ${profile.name}`}
+                />
+                <div>
+                  <p className="kicker">
+                    {profile.role}, {profile.location}
+                  </p>
+                  <p className="status">
+                    <span className="live-dot" aria-hidden="true" />
+                    Open to AI engineering roles
+                  </p>
+                </div>
+              </div>
+              <StreamText as="h1" text={GREETING} delay={400} holdCaret={0} />
+              <StreamText
+                className="lede"
+                text={TAGLINE}
+                delay={400 + streamDuration(GREETING) + 250}
               />
-              <div>
-                <p className="kicker">
-                  {profile.role}, {profile.location}
-                </p>
-                <p className="status">
-                  <span className="live-dot" aria-hidden="true" />
-                  Open to AI engineering roles
-                </p>
+              <p className="sub">
+                Trained as a physicist. Now I design multi-agent systems, retrieval pipelines
+                and the backends that run them in production.
+              </p>
+              <div className="actions">
+                <a className="btn primary" href="#work">
+                  See my work
+                </a>
+                <a className="btn" href={`mailto:${profile.email}`}>
+                  Email me
+                </a>
               </div>
             </div>
-            <h1>{profile.name}</h1>
-            <StreamText className="lede" text="I build AI agents that reason, retrieve and work together." />
-            <p className="sub">
-              Trained as a physicist. Now I design multi-agent systems, retrieval pipelines and
-              the backends that run them in production.
-            </p>
-            <div className="actions">
-              <a className="btn primary" href="#work">
-                See my work
-              </a>
-              <a className="btn" href={`mailto:${profile.email}`}>
-                Email me
-              </a>
-            </div>
           </div>
-          <NeuralNet />
+          <p className="hint" aria-hidden="true">
+            <span className="mouse">Move to tilt the network. Click to send a burst through it.</span>
+            <span className="touch">Tap to send a burst through the network.</span>
+          </p>
         </section>
 
         <div className="path" ref={path}>
@@ -171,33 +185,12 @@ export default function App() {
             </div>
           </section>
 
-          <section id="impact" className="impact-section">
-            <h2 className="node">Impact in production</h2>
+          <section id="experience" className="experience">
+            <h2 className="node">Experience</h2>
             <p className="section-lede">
-              What the systems I've shipped changed for the teams using them.
+              Three years building AI in production, and what it changed at each place.
             </p>
-            <ul className="impact-grid">
-              {impact.map((i) => (
-                <li key={i.figure}>
-                  <span className="impact-figure">{i.figure}</span>
-                  <span className="impact-text">{i.text}</span>
-                  <span className="impact-where">{i.where}</span>
-                </li>
-              ))}
-            </ul>
-
-            <h3 className="career-title">Where I've worked</h3>
-            <ol className="career">
-              {career.map((c) => (
-                <li key={c.org}>
-                  <span className="career-period">{c.period}</span>
-                  <span className="career-org">{c.org}</span>
-                  <span className="career-role">
-                    {c.role}, {c.place}
-                  </span>
-                </li>
-              ))}
-            </ol>
+            <Timeline roles={experience} />
           </section>
 
           <section id="approach" className="about">

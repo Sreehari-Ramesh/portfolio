@@ -1,12 +1,11 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState, type ElementType } from 'react'
 
-// Reveals a sentence the way a language model streams a reply: a few
-// characters (one "token") at a time, with a caret that blinks while it
-// writes. The full sentence is laid out invisibly underneath so nothing
-// shifts, and screen readers get the whole sentence at once.
+// Reveals text the way a language model streams a reply: a few characters
+// (one "token") at a time, with a caret while it writes. The full text is
+// laid out invisibly underneath so nothing shifts, and screen readers get the
+// whole text at once. `delay` lets one line start after another finishes.
 
 const TOKEN_MS = 55
-const START_MS = 350
 
 function tokenize(text: string) {
   const tokens: string[] = []
@@ -20,7 +19,22 @@ function tokenize(text: string) {
   return tokens
 }
 
-export default function StreamText({ text, className }: { text: string; className?: string }) {
+// roughly how long a line takes to stream, so the next can start after it
+export const streamDuration = (text: string) => tokenize(text).length * (TOKEN_MS + 20)
+
+export default function StreamText({
+  text,
+  as: Tag = 'p',
+  className,
+  delay = 350,
+  holdCaret = 1800,
+}: {
+  text: string
+  as?: ElementType
+  className?: string
+  delay?: number
+  holdCaret?: number
+}) {
   const tokens = useMemo(() => tokenize(text), [text])
   const reduce =
     typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -34,21 +48,23 @@ export default function StreamText({ text, className }: { text: string; classNam
       i += 1
       setCount(i)
       if (i < tokens.length) timer = window.setTimeout(tick, TOKEN_MS + Math.random() * 40)
-      else timer = window.setTimeout(() => setSettled(true), 1800)
-    }, START_MS)
+      else timer = window.setTimeout(() => setSettled(true), holdCaret)
+    }, delay)
     return () => window.clearTimeout(timer)
-  }, [tokens, reduce])
+  }, [tokens, reduce, delay, holdCaret])
+
+  const writing = count > 0 && !settled
 
   return (
-    <p className={`stream ${className ?? ''}`}>
+    <Tag className={`stream ${className ?? ''}`}>
       <span className="sr-only">{text}</span>
       <span className="stream-ghost" aria-hidden="true">
         {text}
       </span>
       <span className="stream-live" aria-hidden="true">
         {tokens.slice(0, count).join('')}
-        {!settled && <span className="caret" />}
+        {writing && <span className="caret" />}
       </span>
-    </p>
+    </Tag>
   )
 }

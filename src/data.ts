@@ -98,21 +98,60 @@ export const earlier: Earlier[] = [
   { name: 'Customer personality sales', note: 'Segmenting customers to explain sales', kind: 'Analytics', repo: 'Sales-Analysis-Based-on-Customer-Personality' },
 ]
 
-// Results from production work, shown as the headline of the Impact section.
-export const impact: { figure: string; text: string; where: string }[] = [
-  { figure: '80%+', text: 'of onboarding and support queries handled by assistants on WhatsApp, Telegram and the web', where: 'White Paper Alliance' },
-  { figure: '5,000+', text: 'conversations a month handled by those assistants with memory and grounded answers', where: 'White Paper Alliance' },
-  { figure: '~70%', text: 'less manual reporting once people could ask the database questions directly', where: 'White Paper Alliance' },
-  { figure: '~40%', text: 'lower retrieval latency from re-ranking and persistent vector indexes', where: 'White Paper Alliance' },
-  { figure: '< 1 hr', text: 'per SEO audit, down from days, with automated issue detection and scoring', where: 'White Paper Alliance' },
-  { figure: '100+', text: 'business groups moved to an automated reminder bot with access control', where: 'White Paper Alliance' },
-]
+// One entry per company, newest first. Results with a figure show it large;
+// the rest read as plain lines.
+export type Role = {
+  org: string
+  role: string
+  period: string
+  place: string
+  summary: string
+  results: { figure?: string; text: string }[]
+}
 
-export const career: { org: string; role: string; period: string; place: string }[] = [
-  { org: 'Cyber Core Technology', role: 'AI/ML Engineer', period: '2026 – now', place: 'Abu Dhabi' },
-  { org: 'White Paper Alliance', role: 'AI/ML Engineer', period: '2025 – 2026', place: 'Dubai' },
-  { org: 'Innoneur', role: 'AI/ML and data engineer', period: '2023 – 2025', place: 'Trivandrum' },
-  { org: 'CodeClause, The Sparks Foundation', role: 'Data analyst', period: '2023', place: 'Remote' },
+export const experience: Role[] = [
+  {
+    org: 'Cyber Core Technology',
+    role: 'AI/ML Engineer',
+    period: 'Aug 2026 – now',
+    place: 'Abu Dhabi',
+    summary: 'Building AI systems for Cyber Core in Abu Dhabi.',
+    results: [],
+  },
+  {
+    org: 'White Paper Alliance',
+    role: 'AI/ML Engineer',
+    period: 'Jul 2025 – Jul 2026',
+    place: 'Dubai',
+    summary: 'Shipped production GenAI: assistants, retrieval services and automation used across the business.',
+    results: [
+      { figure: '80%+', text: 'of onboarding and support queries handled by assistants on WhatsApp, Telegram and the web, across 5,000+ conversations a month' },
+      { figure: '~70%', text: 'less manual reporting once people could ask the database questions directly through a Text-to-SQL agent' },
+      { figure: '~40%', text: 'lower retrieval latency from re-ranking and persistent vector indexes' },
+      { figure: '< 1 hr', text: 'per SEO audit, down from days, with automated issue detection and scoring' },
+      { figure: '100+', text: 'business groups moved to an automated reminder bot with access control and an audit trail' },
+    ],
+  },
+  {
+    org: 'Innoneur',
+    role: 'AI/ML Engineer, earlier AI/Data Engineer',
+    period: 'Jul 2023 – Jun 2025',
+    place: 'Trivandrum',
+    summary: 'Core developer on an AI platform, integrating agents, retrieval and automation into one product.',
+    results: [
+      { text: 'Built concierge and personalization features from dynamic user profiles and retrieval' },
+      { text: 'Implemented multi-agent RAG to answer analytical questions across several data sources' },
+      { text: 'Delivered anomaly detection, forecasting and recommendation models for personalized learning' },
+    ],
+  },
+  {
+    org: 'CodeClause and The Sparks Foundation',
+    role: 'Data Analyst',
+    period: 'May – Jul 2023',
+    place: 'Remote and Mumbai',
+    summary: 'Where I moved from physics into data: analysis, dashboards and first machine learning models.',
+    results: [],
+  },
 ]
 
 export const principles: { title: string; text: string }[] = [
