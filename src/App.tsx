@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import Field from './components/Field'
+import NeuralNet from './components/NeuralNet'
 import AttentionText from './components/AttentionText'
 import ContactForm from './components/ContactForm'
 import Project from './components/Project'
@@ -92,12 +92,30 @@ export default function App() {
 
       <main>
         <section className="hero" id="top">
-          <Field />
           <div className="hero-copy">
+            <div className="identity">
+              <img
+                className="avatar"
+                src="./portrait.png"
+                width={72}
+                height={72}
+                alt={`Illustrated portrait of ${profile.name}`}
+              />
+              <div>
+                <p className="kicker">
+                  {profile.role}, {profile.location}
+                </p>
+                <p className="status">
+                  <span className="live-dot" aria-hidden="true" />
+                  Open to AI engineering roles
+                </p>
+              </div>
+            </div>
             <h1>{profile.name}</h1>
             <StreamText className="lede" text="I build AI agents that reason, retrieve and work together." />
             <p className="sub">
-              {profile.role} in the {profile.location}, trained as a physicist.
+              Trained as a physicist. Now I design multi-agent systems, retrieval pipelines and
+              the backends that run them in production.
             </p>
             <div className="actions">
               <a className="btn primary" href="#work">
@@ -108,18 +126,7 @@ export default function App() {
               </a>
             </div>
           </div>
-          <figure className="portrait">
-            <img
-              src="./portrait.png"
-              width={400}
-              height={400}
-              alt={`Illustrated portrait of ${profile.name}`}
-            />
-          </figure>
-          <p className="hint">
-            <span className="mouse">Click</span>
-            <span className="touch">Tap</span> anywhere to fire a neuron
-          </p>
+          <NeuralNet />
         </section>
 
         <div className="path" ref={path}>
