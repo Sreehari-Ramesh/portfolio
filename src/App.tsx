@@ -129,7 +129,7 @@ export default function App() {
                   </p>
                 </div>
               </div>
-              <StreamText as="h1" text={GREETING} mark={profile.name} delay={400} />
+              <StreamText as="h1" text={GREETING} mark={profile.name} delay={500} stepMs={230} />
               <p className="lede">{TAGLINE}</p>
               <p className="sub">{SUBLINE}</p>
               <div className="actions">
@@ -240,7 +240,9 @@ export default function App() {
           <section id="contact" className="contact">
             <p className="contact-kicker">get in touch</p>
             <h2 className="node end contact-title">
-              Let's work <span className="mark">together</span>.
+              Let's work <span className="line">
+                <span className="mark">together</span>.
+              </span>
             </h2>
             <p className="contact-lede">
               Hiring for an AI role, planning a project, or have a question about my work? Send a

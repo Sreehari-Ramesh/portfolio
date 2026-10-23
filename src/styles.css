@@ -871,8 +871,10 @@ h2 {
   margin-bottom: 1.5rem;
 }
 .contact-title {
-  margin: 0 auto;
-  max-width: 12ch;
+  /* full width so the path's end node lines up with the path; the second
+     line is forced with .line rather than by narrowing the heading */
+  margin: 0;
+  max-width: none;
   font-size: clamp(3rem, 9vw, 7.5rem);
   font-weight: 600;
   letter-spacing: -0.045em;
@@ -880,6 +882,9 @@ h2 {
 }
 .contact-title .mark {
   color: var(--accent);
+}
+.contact-title .line {
+  display: block;
 }
 /* the path's end node sits beside the big headline's first line */
 .contact-title.node::before {

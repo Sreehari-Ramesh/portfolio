@@ -28,6 +28,7 @@ export default function StreamText({
   holdCaret = 1800,
   active = true,
   mark,
+  stepMs = TOKEN_MS,
 }: {
   text: string
   as?: ElementType
@@ -38,6 +39,8 @@ export default function StreamText({
   active?: boolean
   // a phrase within the text to set in the accent colour
   mark?: string
+  // time between tokens; raise it for a slower, more visible reveal
+  stepMs?: number
 }) {
   const tokens = useMemo(() => tokenize(text), [text])
   const reduce =
@@ -51,11 +54,11 @@ export default function StreamText({
     let timer = window.setTimeout(function tick() {
       i += 1
       setCount(i)
-      if (i < tokens.length) timer = window.setTimeout(tick, TOKEN_MS + Math.random() * 40)
+      if (i < tokens.length) timer = window.setTimeout(tick, stepMs + Math.random() * stepMs * 0.5)
       else timer = window.setTimeout(() => setSettled(true), holdCaret)
     }, delay)
     return () => window.clearTimeout(timer)
-  }, [tokens, reduce, delay, holdCaret, active])
+  }, [tokens, reduce, delay, holdCaret, active, stepMs])
 
   const writing = count > 0 && !settled
 
