@@ -142,10 +142,6 @@ export default function App() {
               </div>
             </div>
           </div>
-          <p className="hint" aria-hidden="true">
-            <span className="mouse">Move your cursor to drag the dots. Click to send a burst.</span>
-            <span className="touch">Drag across the screen to move the dots. Tap to send a burst.</span>
-          </p>
         </section>
 
         <div className="path" ref={path}>
