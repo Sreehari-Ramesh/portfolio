@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
-import NeuralScape from './components/NeuralScape'
+import AttentionField from './components/AttentionField'
 import AttentionText from './components/AttentionText'
 import ContactForm from './components/ContactForm'
+import Cursor from './components/Cursor'
 import Project from './components/Project'
 import StreamText, { streamDuration } from './components/StreamText'
 import Timeline from './components/Timeline'
@@ -82,7 +83,8 @@ export default function App() {
 
   return (
     <>
-      <NeuralScape />
+      <AttentionField />
+      <Cursor />
       <a className="skip" href="#work">
         Skip to work
       </a>
@@ -136,8 +138,8 @@ export default function App() {
             </div>
           </div>
           <p className="hint" aria-hidden="true">
-            <span className="mouse">Move to tilt the network. Click to send a burst through it.</span>
-            <span className="touch">Tap to send a burst through the network.</span>
+            <span className="mouse">Point at a token to see what it attends to. Click to run a row.</span>
+            <span className="touch">Tap to run attention across a row.</span>
           </p>
         </section>
 

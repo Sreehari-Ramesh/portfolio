@@ -121,6 +121,64 @@ button {
   }
 }
 
+/* ---------- custom cursor ---------- */
+
+.cursor-dot,
+.cursor-ring {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 100;
+  pointer-events: none;
+  display: none;
+}
+.has-cursor .cursor-dot,
+.has-cursor .cursor-ring {
+  display: block;
+}
+.cursor-dot {
+  width: 6px;
+  height: 6px;
+  margin: -3px 0 0 -3px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+.cursor-ring {
+  border: 1px solid rgba(247, 247, 248, 0.45);
+  border-radius: 50%;
+  transition: border-color 0.2s, border-radius 0.2s, background 0.2s;
+}
+.cursor-ring.on-target {
+  border-color: var(--accent);
+  border-radius: 8px;
+  background: rgba(var(--accent-rgb), 0.06);
+}
+.cursor-ring.pulse {
+  animation: ring-pulse 0.45s ease-out;
+}
+@keyframes ring-pulse {
+  from {
+    box-shadow: 0 0 0 0 rgba(var(--accent-rgb), 0.5);
+  }
+  to {
+    box-shadow: 0 0 0 14px rgba(var(--accent-rgb), 0);
+  }
+}
+.cursor-hidden .cursor-dot,
+.cursor-hidden .cursor-ring {
+  opacity: 0;
+}
+/* the custom pointer replaces the native one, except where people type */
+.has-cursor,
+.has-cursor a,
+.has-cursor button {
+  cursor: none;
+}
+.has-cursor input,
+.has-cursor textarea {
+  cursor: text;
+}
+
 /* ---------- nav ---------- */
 
 .nav {
@@ -773,7 +831,10 @@ h2 {
   --dur: 90s;
   font-family: var(--mono);
   font-size: 0.8125rem;
-  color: var(--ink-2);
+  color: var(--accent);
+}
+.ribbon-2 .ribbon-item:hover {
+  color: var(--ink);
 }
 .ribbon-2 .ribbon-track {
   animation-direction: reverse;
