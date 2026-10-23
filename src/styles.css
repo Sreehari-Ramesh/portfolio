@@ -272,15 +272,14 @@ button {
   position: relative;
   display: flex;
   align-items: center;
-  /* a little shorter than the screen so the work section starts sooner */
-  min-height: 82svh;
+  min-height: 100svh;
 }
 .hero-inner {
   position: relative;
   width: 100%;
   max-width: 78rem;
   margin-inline: auto;
-  padding: 7rem var(--gutter) 2.5rem;
+  padding: 7rem var(--gutter) 6rem;
 }
 .hero-copy {
   max-width: 36rem;
@@ -1053,7 +1052,7 @@ h2 {
   /* on narrow screens the copy sits in the middle of the dot grid */
   .hero-inner {
     padding-top: 6rem;
-    padding-bottom: 2rem;
+    padding-bottom: 5.5rem;
   }
   .row-head,
   .row-body,
