@@ -1,16 +1,18 @@
 import { useEffect, useRef } from 'react'
 
-// A deep network seen in perspective behind the hero: five layers laid out as
-// square grids, like the feature maps of a convolutional net, each neuron
-// wired to a few neurons in the next layer. The model turns slowly and tilts
-// toward the pointer. Signals run through it continuously, neurons near the
-// pointer fire, and a click sends a burst from every input at once.
+// A deep network seen in perspective as a fixed backdrop for the whole page:
+// five layers laid out as square grids, like the feature maps of a
+// convolutional net, each neuron wired to a few neurons in the next layer.
+// The model turns slowly and tilts toward the pointer. Signals run through it
+// continuously, neurons near the pointer fire, and a click in the hero sends
+// a burst from every input at once. It dims once you scroll past the hero so
+// the sections stay readable.
 
 type Node = { x: number; y: number; z: number; layer: number; flash: number; out: number[] }
 type Pulse = { from: number; to: number; t: number; speed: number }
 
 const LAYERS = [4, 6, 7, 5, 3] // grid side per layer
-const GAP = 46 // spacing between neurons inside a layer
+const GAP = 54 // spacing between neurons inside a layer
 const DEPTH = 240 // spacing between layers
 const FOCAL = 950
 const RED = '242, 84, 91'
@@ -65,7 +67,6 @@ export default function NeuralScape() {
     let raf = 0
     let last = 0
     let spawnClock = 0
-    let visible = true
 
     const resize = () => {
       dpr = Math.min(window.devicePixelRatio || 1, 2)
@@ -75,10 +76,10 @@ export default function NeuralScape() {
       canvas.width = w * dpr
       canvas.height = h * dpr
       const wide = w > 900
-      // on wide screens the model sits to the right of the text
-      cx = wide ? w * 0.64 : w * 0.5
-      cy = wide ? h * 0.52 : h * 0.36
-      scale = Math.min(w, h) / (wide ? 960 : 640)
+      // sized to fill the screen; slightly right of centre on wide screens
+      cx = wide ? w * 0.56 : w * 0.5
+      cy = wide ? h * 0.5 : h * 0.4
+      scale = Math.max(w / (wide ? 860 : 560), h / (wide ? 700 : 1000))
     }
 
     const project = (now: number) => {
@@ -216,7 +217,7 @@ export default function NeuralScape() {
       step(now, dt)
       project(now)
       draw()
-      raf = visible ? requestAnimationFrame(frame) : 0
+      raf = requestAnimationFrame(frame)
     }
     const start = () => {
       if (!raf && !reduce) {
@@ -225,11 +226,14 @@ export default function NeuralScape() {
       }
     }
 
-    const host = canvas.parentElement!
+    // dim the backdrop as the hero scrolls away
+    const onScroll = () => {
+      const past = Math.min(1, window.scrollY / (window.innerHeight * 0.9))
+      canvas.style.opacity = String(1 - 0.62 * past)
+    }
     const onMove = (e: PointerEvent) => {
-      const rect = canvas.getBoundingClientRect()
-      pointer.x = e.clientX - rect.left
-      pointer.y = e.clientY - rect.top
+      pointer.x = e.clientX
+      pointer.y = e.clientY
       pointer.on = true
       // tilt the model toward the pointer
       target.yaw = -1.0 + (pointer.x / w - 0.5) * 0.5
@@ -241,36 +245,34 @@ export default function NeuralScape() {
       target.pitch = -0.22
     }
     const onDown = (e: PointerEvent) => {
-      if (reduce || (e.target as HTMLElement).closest('a, button')) return
+      const el = e.target as HTMLElement
+      if (reduce || !el.closest('.hero') || el.closest('a, button')) return
       for (let i = 0; i < LAYERS[0] ** 2; i++) fire(i)
     }
 
     resize()
     project(0)
     draw()
-    host.addEventListener('pointermove', onMove)
-    host.addEventListener('pointerleave', onLeave)
-    host.addEventListener('pointerdown', onDown)
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('pointermove', onMove)
+    document.documentElement.addEventListener('pointerleave', onLeave)
+    window.addEventListener('pointerdown', onDown)
     const ro = new ResizeObserver(() => {
       resize()
       project(performance.now())
       draw()
     })
     ro.observe(canvas)
-    const io = new IntersectionObserver(([entry]) => {
-      visible = entry.isIntersecting
-      if (visible) start()
-    })
-    io.observe(canvas)
     start()
 
     return () => {
       cancelAnimationFrame(raf)
       ro.disconnect()
-      io.disconnect()
-      host.removeEventListener('pointermove', onMove)
-      host.removeEventListener('pointerleave', onLeave)
-      host.removeEventListener('pointerdown', onDown)
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('pointermove', onMove)
+      document.documentElement.removeEventListener('pointerleave', onLeave)
+      window.removeEventListener('pointerdown', onDown)
     }
   }, [])
 

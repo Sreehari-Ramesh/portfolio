@@ -10,6 +10,11 @@ import { earlier, experience, facts, featured, principles, profile, stack, state
 
 const GREETING = `Hi, I'm ${profile.name}.`
 const TAGLINE = 'I build AI agents that reason, retrieve and work together.'
+const SUBLINE =
+  'Trained as a physicist. Now I design multi-agent systems, retrieval pipelines and the backends that run them in production.'
+// each line starts streaming shortly after the one before it finishes
+const TAGLINE_AT = 400 + streamDuration(GREETING) + 250
+const SUBLINE_AT = TAGLINE_AT + streamDuration(TAGLINE) + 250
 
 const SECTIONS = [
   { id: 'work', label: 'Work' },
@@ -77,6 +82,7 @@ export default function App() {
 
   return (
     <>
+      <NeuralScape />
       <a className="skip" href="#work">
         Skip to work
       </a>
@@ -96,7 +102,6 @@ export default function App() {
 
       <main>
         <section className="hero" id="top">
-          <NeuralScape />
           <div className="hero-inner">
             <div className="hero-copy">
               <div className="identity">
@@ -118,15 +123,8 @@ export default function App() {
                 </div>
               </div>
               <StreamText as="h1" text={GREETING} delay={400} holdCaret={0} />
-              <StreamText
-                className="lede"
-                text={TAGLINE}
-                delay={400 + streamDuration(GREETING) + 250}
-              />
-              <p className="sub">
-                Trained as a physicist. Now I design multi-agent systems, retrieval pipelines
-                and the backends that run them in production.
-              </p>
+              <StreamText className="lede" text={TAGLINE} delay={TAGLINE_AT} holdCaret={0} />
+              <StreamText className="sub" text={SUBLINE} delay={SUBLINE_AT} />
               <div className="actions">
                 <a className="btn primary" href="#work">
                   See my work

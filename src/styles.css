@@ -199,21 +199,20 @@ button {
 
 /* ---------- hero ---------- */
 
-/* the network fills the whole hero; the copy sits over its quieter left side */
+/* the network is a fixed backdrop for the whole page, behind everything */
+.scape {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  transition: opacity 0.2s linear;
+}
 .hero {
   position: relative;
   display: flex;
   align-items: center;
   min-height: 100svh;
-  overflow: hidden;
-}
-.scape {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  /* fade the network out behind the copy so the text stays easy to read */
-  mask-image: linear-gradient(to right, transparent 12%, rgba(0, 0, 0, 0.35) 34%, #000 58%);
 }
 .hero-inner {
   position: relative;
@@ -224,6 +223,8 @@ button {
 }
 .hero-copy {
   max-width: 36rem;
+  /* a soft halo in the ground colour keeps text crisp over the network */
+  text-shadow: 0 0 18px var(--ground), 0 0 36px var(--ground);
 }
 
 .identity {
@@ -544,14 +545,16 @@ h2 {
   gap: 0.75rem var(--gutter);
   padding: 2.25rem 0;
   border-bottom: 1px solid var(--line);
-  transition:
-    opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
 }
-/* hidden only once the script is watching, so content never goes missing */
-.timeline.armed .entry:not(.in) {
+/* every line rises into place on its own; hidden only once the script runs */
+[data-reveal] {
+  transition:
+    opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.timeline.armed [data-reveal]:not(.in) {
   opacity: 0;
-  transform: translateY(24px);
+  transform: translateY(14px);
 }
 .entry-meta {
   display: grid;
@@ -595,68 +598,33 @@ h2 {
   color: var(--ink);
 }
 
+/* results read as one plain list for every company */
 .results {
   list-style: none;
   padding: 0;
-  margin-top: 1.25rem;
+  margin-top: 0.9rem;
+  max-width: 62ch;
 }
-/* results with a figure sit in a ruled grid of cells */
-.results.figures {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1px;
-  background: var(--line);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  overflow: hidden;
-}
-.results.figures li {
-  display: grid;
-  align-content: start;
-  gap: 0.35rem;
-  padding: 1.1rem 1.2rem;
-  background: var(--panel);
-}
-/* an odd one out takes the full row instead of leaving an empty cell */
-.results.figures li:last-child:nth-child(odd) {
-  grid-column: 1 / -1;
-}
-.result-figure {
-  font-family: var(--mono);
-  font-size: 1.5rem;
-  font-weight: 500;
-  letter-spacing: -0.02em;
-  line-height: 1.1;
-  color: var(--ink);
-}
-.result-text {
-  font-size: 0.84rem;
-  line-height: 1.5;
-}
-.results:not(.figures) li {
+.results li {
   position: relative;
   padding: 0.4rem 0 0.4rem 1.1rem;
   font-size: 0.875rem;
+  line-height: 1.55;
 }
-.results:not(.figures) li::before {
+.results li::before {
   content: '';
   position: absolute;
   left: 0.1rem;
-  top: 0.95rem;
+  top: 0.98rem;
   width: 4px;
   height: 4px;
   border-radius: 50%;
   background: var(--accent);
 }
-/* results follow their company in a short cascade */
-.timeline.armed .results li {
-  transition:
-    opacity 0.5s ease calc(var(--k) * 90ms + 250ms),
-    transform 0.5s cubic-bezier(0.22, 1, 0.36, 1) calc(var(--k) * 90ms + 250ms);
-}
-.timeline.armed .entry:not(.in) .results li {
-  opacity: 0;
-  transform: translateY(10px);
+.result-figure {
+  font-family: var(--mono);
+  font-weight: 500;
+  color: var(--ink);
 }
 
 /* ---------- approach ---------- */
@@ -1004,9 +972,6 @@ h2 {
     padding-top: 45svh;
     padding-bottom: 4.5rem;
   }
-  .scape {
-    mask-image: linear-gradient(to bottom, #000 35%, rgba(0, 0, 0, 0.25) 60%, transparent 80%);
-  }
   .hint {
     left: var(--gutter);
     right: auto;
@@ -1047,9 +1012,6 @@ h2 {
   }
   .principles,
   .tool-groups {
-    grid-template-columns: 1fr;
-  }
-  .results.figures {
     grid-template-columns: 1fr;
   }
   .case > div {
