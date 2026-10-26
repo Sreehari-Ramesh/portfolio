@@ -13,7 +13,7 @@ import { earlier, experience, facts, featured, principles, profile, stack, state
 const GREETING = `Hi, I'm ${profile.name}.`
 const TAGLINE = 'I build AI agents that reason, retrieve and work together.'
 const SUBLINE =
-  'Trained as a physicist. Now I design multi-agent systems, retrieval pipelines and the backends that run them in production.'
+  'Three years shipping GenAI to production: multi-agent systems, retrieval pipelines and the backends that run them.'
 
 const SECTIONS = [
   { id: 'work', label: 'Work' },
@@ -152,8 +152,8 @@ export default function App() {
           <section id="work" className="work">
             <h2 className="node">Selected work</h2>
             <p className="section-lede">
-              Three systems I designed and built end to end, from offline document AI to
-              agents that book trips.
+              Three systems I've built: offline document AI, agents that book trips, and a
+              database you can ask questions in plain language.
             </p>
 
             <div className="projects">

@@ -13,29 +13,29 @@ export const profile = {
 }
 
 export const facts: { term: string; detail: string }[] = [
-  { term: 'Trained in', detail: "Physics, master's degree from St. Aloysius College" },
-  { term: 'Published on', detail: 'How gravitational waves change the pressure of sound waves' },
-  { term: 'Building since 2023', detail: 'Agents, RAG and AI backends running in production' },
+  { term: 'Focus', detail: 'Agentic AI, RAG pipelines and LLM backends' },
+  { term: 'In production since 2023', detail: 'At product and services companies in the UAE and India' },
+  { term: 'Background', detail: "Master's in Physics, with published research" },
 ]
 
 // Each word lists the words it "attends" to most, from 0 to 1.
 export const statement = {
-  text: 'Physics taught me to model systems of many interacting parts. Now the parts are language models, tools and the people who check their work.',
+  text: 'Good AI systems work like a team: models that reason, tools that act, retrieval that grounds each answer, and people who check the work.',
   links: {
-    physics: { model: 0.9, systems: 0.8, interacting: 0.6, taught: 0.5 },
-    taught: { physics: 0.8, me: 0.6, model: 0.5 },
-    model: { systems: 0.9, physics: 0.7, models: 0.5 },
-    systems: { parts: 0.9, interacting: 0.8, many: 0.6, model: 0.6 },
-    many: { parts: 0.8, interacting: 0.6 },
-    interacting: { parts: 0.9, systems: 0.7, many: 0.5 },
-    parts: { systems: 0.8, models: 0.75, tools: 0.7, people: 0.7, interacting: 0.6 },
-    now: { parts: 0.6, physics: 0.4 },
-    language: { models: 1 },
-    models: { language: 0.95, parts: 0.7, tools: 0.5, model: 0.5 },
-    tools: { models: 0.7, parts: 0.7, people: 0.4 },
-    people: { check: 0.85, work: 0.7, parts: 0.6 },
-    check: { work: 0.85, people: 0.8, models: 0.5 },
-    work: { check: 0.8, their: 0.7, people: 0.6, models: 0.5 },
+    good: { systems: 0.8, ai: 0.6 },
+    ai: { systems: 0.9, models: 0.7 },
+    systems: { ai: 0.8, team: 0.9, models: 0.7, tools: 0.6, retrieval: 0.6, people: 0.6 },
+    team: { systems: 0.9, people: 0.75, models: 0.6, tools: 0.6, retrieval: 0.6 },
+    models: { reason: 0.95, ai: 0.6, team: 0.5 },
+    reason: { models: 0.95, answer: 0.5 },
+    tools: { act: 0.95, models: 0.5 },
+    act: { tools: 0.95, team: 0.4 },
+    retrieval: { grounds: 0.95, answer: 0.8 },
+    grounds: { retrieval: 0.9, answer: 0.9, each: 0.5 },
+    answer: { grounds: 0.85, retrieval: 0.75, each: 0.6, check: 0.5 },
+    people: { check: 0.9, work: 0.75, team: 0.6 },
+    check: { work: 0.9, people: 0.85, answer: 0.5 },
+    work: { check: 0.8, people: 0.6, team: 0.6 },
   } as Record<string, Record<string, number>>,
 }
 
@@ -94,8 +94,8 @@ export const earlier: Earlier[] = [
   { name: 'Customer personality sales', note: 'Segmenting customers to explain sales', kind: 'Analytics', repo: 'Sales-Analysis-Based-on-Customer-Personality' },
 ]
 
-// One entry per company, newest first. Results with a figure show it large;
-// the rest read as plain lines.
+// One entry per company, newest first. Results with a figure lead with it in
+// bold; the rest read as plain lines.
 export type Role = {
   org: string
   role: string
@@ -111,7 +111,7 @@ export const experience: Role[] = [
     role: 'AI/ML Engineer',
     period: 'Aug 2026 – now',
     place: 'Abu Dhabi',
-    summary: 'Building AI systems for Cyber Core in Abu Dhabi.',
+    summary: 'My current role, building AI and machine learning systems as part of the engineering team.',
     results: [],
   },
   {
@@ -145,7 +145,7 @@ export const experience: Role[] = [
     role: 'Data Analyst',
     period: 'May – Jul 2023',
     place: 'Remote and Mumbai',
-    summary: 'Where I moved from physics into data: analysis, dashboards and first machine learning models.',
+    summary: 'Where I started in data: analysis, dashboards and my first machine learning models.',
     results: [],
   },
 ]
