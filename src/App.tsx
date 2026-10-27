@@ -199,11 +199,6 @@ export default function App() {
             <div className="about-grid">
               <div className="statement-wrap">
                 <AttentionText text={statement.text} links={statement.links} />
-                <p className="probe-hint" aria-hidden="true">
-                  <span className="mouse">Point at</span>
-                  <span className="touch">Tap</span> a word to see which others it attends to,
-                  like a language model reading this sentence.
-                </p>
               </div>
               <dl className="facts">
                 {facts.map((f) => (
