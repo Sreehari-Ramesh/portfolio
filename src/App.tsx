@@ -152,8 +152,8 @@ export default function App() {
           <section id="work" className="work">
             <h2 className="node">Selected work</h2>
             <p className="section-lede">
-              Three systems I've built: offline document AI, agents that book trips, and a
-              database you can ask questions in plain language.
+              Four systems I've built: offline document AI, agents that book trips, an AI
+              presentation studio, and a database you can question in plain language.
             </p>
 
             <div className="projects">
@@ -170,7 +170,7 @@ export default function App() {
                 aria-controls="earlier"
                 onClick={() => setShowEarlier((v) => !v)}
               >
-                {showEarlier ? 'Hide earlier projects' : `Show ${earlier.length} earlier projects`}
+                {showEarlier ? 'Hide more projects' : `Show ${earlier.length} more projects`}
               </button>
               <ul className="earlier" id="earlier" hidden={!showEarlier}>
                 {earlier.map((e) => (

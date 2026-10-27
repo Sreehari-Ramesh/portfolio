@@ -71,27 +71,31 @@ export const featured: Project[] = [
     repo: 'https://github.com/Sreehari-Ramesh/multi-agent-travel-assistant-system',
   },
   {
+    name: 'Prompt2Present',
+    summary: 'An AI presentation studio that turns a short brief into an editable slide deck.',
+    story:
+      'Describe a topic, audience and tone, and the model drafts a full deck on a live slide canvas. Edit any slide by hand or ask for revisions in plain language, for one slide or the whole deck; responses come back as structured output validated on the server, so the model can never break a layout.',
+    outcome: 'Decks export as fully editable PowerPoint files, speaker notes included.',
+    stack: ['Next.js', 'React', 'TypeScript', 'OpenAI Responses API', 'Zod', 'PptxGenJS', 'Cloudflare'],
+    repo: 'https://github.com/Sreehari-Ramesh/Prompt2Present',
+  },
+  {
     name: 'Text-to-SQL agent',
     summary: 'Lets a business ask its own database questions in plain language.',
     story:
-      'Business teams were waiting on manual reports for simple questions about their own data. This agent turns a plain-language question into SQL, runs it, does the sums and explains the answer in a sentence.',
-    outcome: 'It cut reliance on manual reporting by about 70%.',
-    stack: ['Python', 'LLM tool calling', 'SQL', 'SQLAlchemy', 'FastAPI'],
-    context: 'Built at White Paper Alliance',
+      'Business teams were waiting on manual reports for simple questions about their own data. This LangGraph agent picks the relevant tables with a FAISS index, writes the SQL, checks it before it runs, repairs it when it fails and can hand back the answer as an Excel report.',
+    outcome: 'The production version cut reliance on manual reporting by about 70%.',
+    stack: ['LangGraph', 'FAISS', 'Python', 'SQL Server', 'Streamlit'],
+    repo: 'https://github.com/Sreehari-Ramesh/finanacial_data_analyst_agent',
   },
 ]
 
 export type Earlier = { name: string; note: string; kind: string; repo: string }
 
 export const earlier: Earlier[] = [
-  { name: 'Chat with PDF using Llama 2', note: 'Ask questions about a PDF with an open-source LLM', kind: 'LLM', repo: 'Chat-with-PDF-using-Llama2' },
-  { name: 'Image recognition', note: 'Classifying images with a neural network', kind: 'Deep learning', repo: 'Image-recognition-using-AI' },
-  { name: 'Credit card fraud detection', note: 'Spotting fraudulent transactions in imbalanced data', kind: 'ML', repo: 'Credit-Card-Fraud-Detection' },
-  { name: 'Bengaluru home prices', note: 'Predicting house prices from location and size', kind: 'ML', repo: 'Bengaluru-Home-price-prediction' },
-  { name: 'Medical cost prediction', note: 'Exploring and modelling insurance charges', kind: 'ML', repo: 'Medical-Cost-Prediction-EDA-Model-' },
-  { name: 'Student performance', note: 'Predicting exam scores from study habits', kind: 'ML', repo: 'Student-performance-prediction' },
-  { name: 'Global terrorism dashboard', note: 'Interactive dashboard of incidents worldwide', kind: 'Analytics', repo: 'GLOBAL-TERRORISM-DASHBOARD' },
-  { name: 'Customer personality sales', note: 'Segmenting customers to explain sales', kind: 'Analytics', repo: 'Sales-Analysis-Based-on-Customer-Personality' },
+  { name: 'Automated SEO agent', note: 'Audits WordPress sites, plans fixes and applies them only after human approval', kind: 'Multi-agent', repo: 'automated_seo_agent' },
+  { name: 'Cricket Q&A agent', note: 'Answers T20I, IPL and PSL questions with hybrid retrieval over match data', kind: 'RAG', repo: 'Cricket_QnA_Agent' },
+  { name: 'Telegram reminder bot', note: 'Scheduled and on-demand payment reminders for 100+ groups, with an audit trail', kind: 'Automation', repo: 'telegram_payment_processing_bot' },
 ]
 
 // One entry per company, newest first. Results with a figure lead with it in
@@ -111,8 +115,13 @@ export const experience: Role[] = [
     role: 'AI/ML Engineer',
     period: 'Aug 2026 – now',
     place: 'Abu Dhabi',
-    summary: 'My current role, building AI and machine learning systems as part of the engineering team.',
-    results: [],
+    summary: 'Building agentic AI products and the platform behind them, for internal teams and clients.',
+    results: [
+      { text: 'Designing multi-agent and tool-calling workflows that automate multi-step business processes end to end' },
+      { text: 'Building retrieval over company and client documents, with grounded answers that cite their sources' },
+      { text: 'Shipping GenAI features for clients, from chat assistants to document tools, from prototype to production' },
+      { text: 'Owning deployment, evaluation, monitoring and guardrails so AI features stay reliable and secure in production' },
+    ],
   },
   {
     org: 'White Paper Alliance',
